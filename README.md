@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Practice Test Driven Development to create the game Battleship.
+Practice Test Driven Development with unit tests to create the game Battleship.
 
 ## Game Features
 

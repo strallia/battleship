@@ -1,6 +1,6 @@
 import Ship from '../classes/Ship';
 
-test.only('Hitting ship increments its hit score by one per hit', () => {
+test('Hitting ship increments its hit score by one per hit', () => {
   const ship = new Ship();
   ship.hit();
   ship.hit();

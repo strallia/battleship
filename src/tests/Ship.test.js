@@ -14,7 +14,7 @@ test('Ship returns accurate sunk status', () => {
 
 test('Cruiser has length of 3', () => {
   const cruiser = new Ship('cruiser');
-  expect(cruiser.length).toBe(5);
+  expect(cruiser.length).toBe(3);
 });
 
 test('Carrier has length of 5', () => {

@@ -15,5 +15,13 @@
     "import/prefer-default-export": "off",
     "no-unused-vars": "off",
     "no-console": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["./src/tests/*"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

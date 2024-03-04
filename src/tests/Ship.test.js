@@ -7,9 +7,16 @@ test('Hitting ship increments its hit score by one per hit', () => {
   expect(ship.hits).toBe(2);
 });
 
-test('Ship returns accurate sunk status', () => {
+test('Un-sunken ship returns accurate sunk status', () => {
   const ship = new Ship();
-  expect(ship.isSunk).toBe(false);
+  expect(ship.isSunk()).toBe(false);
+});
+
+test('Sunken ship returns accurate sunk status', () => {
+  const destoryer = new Ship('destroyer');
+  destoryer.hit();
+  destoryer.hit();
+  expect(destoryer.isSunk()).toBe(true);
 });
 
 test('Cruiser has length of 3', () => {

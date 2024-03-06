@@ -19,7 +19,7 @@ it('Places battleship on board vertically', () => {
 
 it('Places battleship on board horizontally', () => {
   const clickedCoord = [1, 2];
-  Gameboard.placeShip(clickedCoord, battleship, 'horizontal');
+  Gameboard.placeShip(clickedCoord, battleship, true);
   expect(Gameboard.board[1][2]).toBeInstanceOf(Ship);
   expect(Gameboard.board[1][3]).toBeInstanceOf(Ship);
   expect(Gameboard.board[1][4]).toBeInstanceOf(Ship);
@@ -28,17 +28,11 @@ it('Places battleship on board horizontally', () => {
 });
 
 it('Does not allow placement of horizontal ship past right side of board', () => {
-  const clickedCoord = [9, 9];
-  expect(Gameboard.placeShip(clickedCoord, battleship, 'horizontal')).toBe(
-    false,
-  );
+  const clickedCoord = [3, 9];
+  expect(Gameboard.placeShip(clickedCoord, battleship, true)).toBe(false);
 });
 
-// it('Does not allow placement of horizontal ship past left side of board', () => {
-//   const clickedCoord = [9, 9];
-//   expect(Gameboard.placeShip(clickedCoord, battleship, 'horizontal')).toBe(
-//     false,
-//   );
-// });
-// it('Does not allow placement of vertical ship past top side of board', () => {});
-// it('Does not allow placement of vertical ship past bottom side of board', () => {});
+it('Does not allow placement of vertical ship past bottom side of board', () => {
+  const clickedCoord = [9, 2];
+  expect(Gameboard.placeShip(clickedCoord, battleship, false)).toBe(false);
+});

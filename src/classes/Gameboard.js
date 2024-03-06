@@ -14,13 +14,13 @@ export default class Gameboard {
     Gameboard.board = Gameboard.#getNewBoard();
   }
 
-  static placeShip(clickedCoord, ship, direction) {
+  static placeShip(clickedCoord, ship, isHorizontal) {
     const y = clickedCoord[0];
     const x = clickedCoord[1];
 
-    // check if ship is off right side of board
-    const sternCoord = x + ship.length;
-    if (sternCoord > 9) return false;
+    // check if ship is off the board
+    const sternPositon = (isHorizontal ? x : y) + ship.length;
+    if (sternPositon > 9) return false;
 
     // place ship on board
     let yCount = 0;
@@ -30,8 +30,9 @@ export default class Gameboard {
       (yCount < ship.length && xCount === 0)
     ) {
       Gameboard.board[y + yCount][x + xCount] = ship;
-      if (direction === 'horizontal') xCount += 1;
+      if (isHorizontal) xCount += 1;
       else yCount += 1;
     }
+    return true;
   }
 }

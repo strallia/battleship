@@ -1,30 +1,24 @@
 import Ship from '../classes/Ship';
 
-it('Hitting ship increments its hit score by one per hit', () => {
+it('Increments hit score by one each time when ship hit', () => {
   const ship = new Ship();
   ship.hit();
   ship.hit();
   expect(ship.hits).toBe(2);
 });
 
-it('Un-sunken ship returns accurate sunk status', () => {
-  const ship = new Ship();
+it('Builds ship of length 5', () => {
+  const ship = new Ship(5);
+  expect(ship.length).toBe(5);
+});
+
+it('Returns false when ship has not sunk', () => {
+  const ship = new Ship(3);
   expect(ship.isSunk()).toBe(false);
 });
 
-it('Sunken ship returns accurate sunk status', () => {
-  const destoryer = new Ship('destroyer');
-  destoryer.hit();
-  destoryer.hit();
-  expect(destoryer.isSunk()).toBe(true);
-});
-
-it('Cruiser has length of 3', () => {
-  const cruiser = new Ship('cruiser');
-  expect(cruiser.length).toBe(3);
-});
-
-it('Carrier has length of 5', () => {
-  const carrier = new Ship('carrier');
-  expect(carrier.length).toBe(5);
+it('Returns true when ship has sunk', () => {
+  const ship = new Ship(1);
+  ship.hit();
+  expect(ship.isSunk()).toBe(true);
 });

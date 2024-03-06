@@ -1,7 +1,7 @@
 import Ship from '../classes/Ship';
 import Gameboard from '../classes/Gameboard';
 
-describe('Reset board after each test', () => {
+describe('Reset board after each test to check for valid ship placement', () => {
   afterEach(() => {
     Gameboard.resetBoard();
   });
@@ -37,13 +37,23 @@ describe('Reset board after each test', () => {
   });
 });
 
-// describe('Using only single board', () => {
-//   afterAll(() => {
-//     Gameboard.resetBoard();
-//   });
+describe('Using only single board to check for overlapping ship placement', () => {
+  afterAll(() => {
+    Gameboard.resetBoard();
+  });
 
-//   const battleship = new Ship(4);
-//   const cruiser = new Ship(3);
+  const battleship = new Ship(4);
+  const cruiser = new Ship(3);
 
-//   it('Does not allow placement of ships ontop another', () => {});
-// });
+  it('Does not allow placement of horizontal ship ontop another', () => {
+    const clickedCoord = [1, 2];
+    Gameboard.placeShip(clickedCoord, battleship, true);
+    expect(Gameboard.placeShip(clickedCoord, cruiser, true)).toBe(false);
+  });
+
+  it('Does not allow placement of vertical ship ontop another', () => {
+    const clickedCoord = [1, 2];
+    Gameboard.placeShip(clickedCoord, battleship, true);
+    expect(Gameboard.placeShip(clickedCoord, cruiser, false)).toBe(false);
+  });
+});

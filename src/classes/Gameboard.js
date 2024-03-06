@@ -22,6 +22,19 @@ export default class Gameboard {
     const sternPositon = (isHorizontal ? x : y) + ship.length;
     if (sternPositon > 9) return false;
 
+    // check if ship is being placed ontop another
+    const proposedShipCoordinates = Gameboard.#getShipCoordinates(
+      clickedCoord,
+      ship,
+      isHorizontal,
+    );
+    const coordinatesVacancy = proposedShipCoordinates.map((coord) =>
+      Boolean(Gameboard.board[coord[0]][coord[1]]),
+    );
+    if (coordinatesVacancy.some((occupied) => occupied)) {
+      return false;
+    }
+
     // place ship on board
     let yCount = 0;
     let xCount = 0;
@@ -34,5 +47,21 @@ export default class Gameboard {
       else yCount += 1;
     }
     return true;
+  }
+
+  static #getShipCoordinates(clickedCoord, ship, isHorizontal) {
+    const y = clickedCoord[0];
+    const x = clickedCoord[1];
+    const coords = [];
+    if (isHorizontal) {
+      for (let i = 0; i < ship.length; i += 1) {
+        coords.push([y, x + i]);
+      }
+    } else {
+      for (let i = 0; i < ship.length; i += 1) {
+        coords.push([y + i, x]);
+      }
+    }
+    return coords;
   }
 }

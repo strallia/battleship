@@ -2,9 +2,17 @@ export default class Gameboard {
   // creates 10x10 grid with origin being the top left.
   // position selected by [y, x] coordinates where
   // y = row number and x = column number.
-  static board = Array(10)
-    .fill(null)
-    .map(() => Array(10).fill(null));
+  static board = Gameboard.#getNewBoard();
+
+  static #getNewBoard() {
+    return Array(10)
+      .fill(null)
+      .map(() => Array(10).fill(null));
+  }
+
+  static resetBoard() {
+    Gameboard.board = Gameboard.#getNewBoard();
+  }
 
   static placeShip(clickedCoord, ship, direction) {
     const y = clickedCoord[0];

@@ -1,6 +1,10 @@
 import Ship from '../classes/Ship';
 import Gameboard from '../classes/Gameboard';
 
+afterEach(() => {
+  Gameboard.resetBoard();
+});
+
 const battleship = new Ship(5);
 
 it('Places battleship on board vertically', () => {

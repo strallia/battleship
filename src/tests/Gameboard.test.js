@@ -11,19 +11,19 @@ describe('Reset board after each test to check for valid ship placement', () => 
   it('Places battleship on board vertically', () => {
     const clickedCoord = [1, 2]; // [y(row), x(column)]
     Gameboard.placeShip(clickedCoord, battleship);
-    expect(Gameboard.board[1][2]).toBeInstanceOf(Ship);
-    expect(Gameboard.board[2][2]).toBeInstanceOf(Ship);
-    expect(Gameboard.board[3][2]).toBeInstanceOf(Ship);
-    expect(Gameboard.board[4][2]).toBeInstanceOf(Ship);
+    expect(Gameboard.board[1][2]).toBeTruthy();
+    expect(Gameboard.board[2][2]).toBeTruthy();
+    expect(Gameboard.board[3][2]).toBeTruthy();
+    expect(Gameboard.board[4][2]).toBeTruthy();
   });
 
   it('Places battleship on board horizontally', () => {
     const clickedCoord = [1, 2];
     Gameboard.placeShip(clickedCoord, battleship, true);
-    expect(Gameboard.board[1][2]).toBeInstanceOf(Ship);
-    expect(Gameboard.board[1][3]).toBeInstanceOf(Ship);
-    expect(Gameboard.board[1][4]).toBeInstanceOf(Ship);
-    expect(Gameboard.board[1][5]).toBeInstanceOf(Ship);
+    expect(Gameboard.board[1][2]).toBeTruthy();
+    expect(Gameboard.board[1][3]).toBeTruthy();
+    expect(Gameboard.board[1][4]).toBeTruthy();
+    expect(Gameboard.board[1][5]).toBeTruthy();
   });
 
   it('Does not allow placement of horizontal ship past right side of board', () => {

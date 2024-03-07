@@ -4,6 +4,8 @@ export default class Gameboard {
   // y = row number and x = column number.
   static board = Gameboard.#getNewBoard();
 
+  static #ships = [];
+
   static #getNewBoard() {
     return Array(10)
       .fill(null)
@@ -12,6 +14,7 @@ export default class Gameboard {
 
   static resetBoard() {
     Gameboard.board = Gameboard.#getNewBoard();
+    this.#ships = [];
   }
 
   static placeShip(clickedCoord, shipInstance, isHorizontal) {
@@ -35,9 +38,10 @@ export default class Gameboard {
       return false;
     }
 
-    // place ship on board
+    // place ship on board horizontally or vertically
     let yCount = 0;
     let xCount = 0;
+    this.#ships.push(shipInstance);
     while (
       (yCount === 0 && xCount < length) ||
       (yCount < length && xCount === 0)
@@ -81,5 +85,13 @@ export default class Gameboard {
     const square = Gameboard.board[y][x];
     if (square) return square.attackStatus;
     return square;
+  }
+
+  static allShipsDown() {
+    const allDown = this.#ships
+      .map((ship) => ship.isSunk())
+      .every((status) => status === true);
+    if (allDown) return true;
+    return false;
   }
 }

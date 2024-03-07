@@ -111,3 +111,32 @@ describe('Handling attacks', () => {
     expect(cruiser.isSunk()).toBe(false);
   });
 });
+
+describe('Report if all ships down', () => {
+  let cruiser;
+  let destoryer;
+  beforeEach(() => {
+    cruiser = new Ship(3);
+    destoryer = new Ship(2);
+    Gameboard.placeShip([1, 1], destoryer, false);
+    Gameboard.placeShip([7, 6], cruiser, true);
+  });
+  afterEach(() => {
+    Gameboard.resetBoard();
+  });
+
+  it('allShipsDown returns true when all ships have sunk', () => {
+    Gameboard.receiveAttack([1, 1]);
+    Gameboard.receiveAttack([2, 1]);
+    Gameboard.receiveAttack([7, 6]);
+    Gameboard.receiveAttack([7, 7]);
+    Gameboard.receiveAttack([7, 8]);
+    expect(Gameboard.allShipsDown()).toBe(true);
+  });
+
+  it('allShipsDown returns false when some ships still floating', () => {
+    Gameboard.receiveAttack([1, 1]);
+    Gameboard.receiveAttack([7, 6]);
+    expect(Gameboard.allShipsDown()).toBe(false);
+  });
+});

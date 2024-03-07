@@ -13,6 +13,22 @@ export default class Gameboard {
       .map(() => Array(10).fill(null));
   }
 
+  static getShipCoordinates(clickedCoord, shipInstance, isHorizontal) {
+    const [y, x] = clickedCoord;
+    const length = shipInstance.getLength();
+    const coords = [];
+    if (isHorizontal) {
+      for (let i = 0; i < length; i += 1) {
+        coords.push([y, x + i]);
+      }
+    } else {
+      for (let i = 0; i < length; i += 1) {
+        coords.push([y + i, x]);
+      }
+    }
+    return coords;
+  }
+
   resetBoard() {
     this.board = Gameboard.#getNewBoard();
     this.ships = [];
@@ -52,22 +68,6 @@ export default class Gameboard {
       else yCount += 1;
     }
     return true;
-  }
-
-  static getShipCoordinates(clickedCoord, shipInstance, isHorizontal) {
-    const [y, x] = clickedCoord;
-    const length = shipInstance.getLength();
-    const coords = [];
-    if (isHorizontal) {
-      for (let i = 0; i < length; i += 1) {
-        coords.push([y, x + i]);
-      }
-    } else {
-      for (let i = 0; i < length; i += 1) {
-        coords.push([y + i, x]);
-      }
-    }
-    return coords;
   }
 
   receiveAttack(coord) {

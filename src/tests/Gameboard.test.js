@@ -57,3 +57,10 @@ describe('Using only single board to check for overlapping ship placement', () =
     expect(Gameboard.placeShip(clickedCoord, cruiser, false)).toBe(false);
   });
 });
+
+describe('Handling an attack', () => {
+  it("Increments ship's hit score on successful attack");
+  it('Records on square that a successful attack was a hit');
+  it('Records on square that an unsuccessful attack was a miss');
+  it('Does not allow attack on prviously attacked square');
+});

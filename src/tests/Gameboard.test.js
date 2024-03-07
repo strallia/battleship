@@ -59,8 +59,9 @@ describe('Using only single board to check for overlapping ship placement', () =
 });
 
 describe('Handling attacks', () => {
-  const cruiser = new Ship(3);
+  let cruiser;
   beforeEach(() => {
+    cruiser = new Ship(3);
     Gameboard.placeShip([2, 4], cruiser, false);
   });
   afterEach(() => {
@@ -75,16 +76,16 @@ describe('Handling attacks', () => {
     expect(Gameboard.receiveAttack([1, 4])).toBe(false);
   });
 
-  // it("Ship's hit score returns 1 when hit once", () => {
-  //   Gameboard.receiveAttack([2, 4]);
-  //   expect(cruiser.getHits()).toBe(1);
-  // });
+  it("Ship's hit score returns 1 when hit once", () => {
+    Gameboard.receiveAttack([2, 4]);
+    expect(cruiser.getHits()).toBe(1);
+  });
 
-  // it("Ship's hit score returns 2 when hit twice", () => {
-  //   Gameboard.receiveAttack([2, 4]);
-  //   Gameboard.receiveAttack([3, 4]);
-  //   expect(cruiser.hits).toBe(1);
-  // });
+  it("Ship's hit score returns 2 when hit twice", () => {
+    Gameboard.receiveAttack([2, 4]);
+    Gameboard.receiveAttack([3, 4]);
+    expect(cruiser.getHits()).toBe(2);
+  });
 
   // it('Records on square that a successful attack was a hit');
   // it('Records on square that an unsuccessful attack was a miss');

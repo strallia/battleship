@@ -67,12 +67,9 @@ export default class Gameboard {
 
   static receiveAttack(coord) {
     const [y, x] = coord;
-    // given clicked coord, check if a ship is there,
-    // if it is, incremenet ship's git score and return true,
-    // else return false as in miss
     const hasShip = Gameboard.board[y][x];
     if (hasShip) {
-      hasShip.hits += 1;
+      hasShip.hit();
       return true;
     }
     return false;

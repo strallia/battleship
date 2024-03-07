@@ -42,10 +42,7 @@ export default class Gameboard {
       (yCount === 0 && xCount < length) ||
       (yCount < length && xCount === 0)
     ) {
-      Gameboard.board[y + yCount][x + xCount] = {
-        ship: shipInstance,
-        hasAttacked: false,
-      };
+      Gameboard.board[y + yCount][x + xCount] = { ship: shipInstance };
       if (isHorizontal) xCount += 1;
       else yCount += 1;
     }
@@ -70,12 +67,19 @@ export default class Gameboard {
 
   static receiveAttack(coord) {
     const [y, x] = coord;
-    const hasShip = Gameboard.board[y][x];
-    if (hasShip) {
-      hasShip.ship.hit();
-      hasShip.hasAttacked = true;
-      return true;
+    const square = Gameboard.board[y][x];
+    if (square === null) {
+      Gameboard.board[y][x] = { attackStatus: 'miss' };
+    } else if (Object.hasOwn(square, 'ship')) {
+      square.ship.hit();
+      square.attackStatus = 'hit';
     }
-    return false;
+  }
+
+  static getAttackStatus(coord) {
+    const [y, x] = coord;
+    const square = Gameboard.board[y][x];
+    if (square) return square.attackStatus;
+    return square;
   }
 }

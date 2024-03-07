@@ -68,14 +68,6 @@ describe('Handling attacks', () => {
     Gameboard.resetBoard();
   });
 
-  it('receiveAttack returns true when its a hit', () => {
-    expect(Gameboard.receiveAttack([2, 4])).toBe(true);
-  });
-
-  it('receiveAttack returns false when its a miss', () => {
-    expect(Gameboard.receiveAttack([1, 4])).toBe(false);
-  });
-
   it("Ship's hit score returns 1 when hit once", () => {
     Gameboard.receiveAttack([2, 4]);
     expect(cruiser.getHits()).toBe(1);
@@ -87,14 +79,22 @@ describe('Handling attacks', () => {
     expect(cruiser.getHits()).toBe(2);
   });
 
-  it('Records on previously attacked square that it has already been attacked', () => {
+  it('Square has attackStatus of "hit" if attack was a hit', () => {
     Gameboard.receiveAttack([2, 4]);
-    expect(Gameboard.board[2][4].hasAttacked).toBe(true);
+    expect(Gameboard.getAttackStatus([2, 4])).toBe('hit');
   });
 
-  it('Records on un-attacked square that it has not been attacked', () => {
-    expect(Gameboard.board[2][4].hasAttacked).toBe(false);
+  it('Square has attackStatus of "miss" if attack was a miss', () => {
+    Gameboard.receiveAttack([0, 4]);
+    expect(Gameboard.getAttackStatus([0, 4])).toBe('miss');
   });
 
-  // it('Does not allow attack on prviously attacked square');
+  it('Square has attackStatus of null if not previously attacked', () => {
+    expect(Gameboard.getAttackStatus([0, 4])).toBe(null);
+  });
+
+  it('Does not allow attack on previously attacked square', () => {
+    Gameboard.receiveAttack([0, 4]);
+    expect(Gameboard.receiveAttack([0, 4])).toBeUndefined();
+  });
 });

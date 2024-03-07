@@ -1,10 +1,11 @@
 export default class Gameboard {
-  // creates 10x10 grid with origin being the top left.
-  // position selected by [y, x] coordinates where
-  // y = row number and x = column number.
-  static board = Gameboard.#getNewBoard();
-
-  static #ships = [];
+  constructor() {
+    // creates 10x10 grid with origin being the top left.
+    // position selected by [y, x] coordinates where
+    // y = row number and x = column number.
+    this.board = Gameboard.#getNewBoard();
+    this.ships = [];
+  }
 
   static #getNewBoard() {
     return Array(10)
@@ -12,12 +13,12 @@ export default class Gameboard {
       .map(() => Array(10).fill(null));
   }
 
-  static resetBoard() {
-    Gameboard.board = Gameboard.#getNewBoard();
-    this.#ships = [];
+  resetBoard() {
+    this.board = Gameboard.#getNewBoard();
+    this.ships = [];
   }
 
-  static placeShip(clickedCoord, shipInstance, isHorizontal) {
+  placeShip(clickedCoord, shipInstance, isHorizontal) {
     const [y, x] = clickedCoord;
     const length = shipInstance.getLength();
 
@@ -26,13 +27,13 @@ export default class Gameboard {
     if (sternPositon > 9) return false;
 
     // check if ship is being placed ontop another
-    const proposedShipCoordinates = Gameboard.#getShipCoordinates(
+    const proposedShipCoordinates = Gameboard.getShipCoordinates(
       clickedCoord,
       shipInstance,
       isHorizontal,
     );
     const coordinatesVacancy = proposedShipCoordinates.map((coord) =>
-      Boolean(Gameboard.board[coord[0]][coord[1]]),
+      Boolean(this.board[coord[0]][coord[1]]),
     );
     if (coordinatesVacancy.some((occupied) => occupied)) {
       return false;
@@ -41,19 +42,19 @@ export default class Gameboard {
     // place ship on board horizontally or vertically
     let yCount = 0;
     let xCount = 0;
-    this.#ships.push(shipInstance);
+    this.ships.push(shipInstance);
     while (
       (yCount === 0 && xCount < length) ||
       (yCount < length && xCount === 0)
     ) {
-      Gameboard.board[y + yCount][x + xCount] = { ship: shipInstance };
+      this.board[y + yCount][x + xCount] = { ship: shipInstance };
       if (isHorizontal) xCount += 1;
       else yCount += 1;
     }
     return true;
   }
 
-  static #getShipCoordinates(clickedCoord, shipInstance, isHorizontal) {
+  static getShipCoordinates(clickedCoord, shipInstance, isHorizontal) {
     const [y, x] = clickedCoord;
     const length = shipInstance.getLength();
     const coords = [];
@@ -69,26 +70,26 @@ export default class Gameboard {
     return coords;
   }
 
-  static receiveAttack(coord) {
+  receiveAttack(coord) {
     const [y, x] = coord;
-    const square = Gameboard.board[y][x];
+    const square = this.board[y][x];
     if (square === null) {
-      Gameboard.board[y][x] = { attackStatus: 'miss' };
+      this.board[y][x] = { attackStatus: 'miss' };
     } else if (Object.hasOwn(square, 'ship')) {
       square.ship.hit();
       square.attackStatus = 'hit';
     }
   }
 
-  static getAttackStatus(coord) {
+  getAttackStatus(coord) {
     const [y, x] = coord;
-    const square = Gameboard.board[y][x];
+    const square = this.board[y][x];
     if (square) return square.attackStatus;
     return square;
   }
 
-  static allShipsDown() {
-    const allDown = this.#ships
+  allShipsDown() {
+    const allDown = this.ships
       .map((ship) => ship.isSunk())
       .every((status) => status === true);
     if (allDown) return true;

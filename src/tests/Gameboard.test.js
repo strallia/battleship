@@ -2,141 +2,161 @@ import Ship from '../classes/Ship';
 import Gameboard from '../classes/Gameboard';
 
 describe('Check for single ship placement', () => {
-  afterEach(() => {
-    Gameboard.resetBoard();
-  });
-
   const battleship = new Ship(4);
+  const myBoard = new Gameboard();
+  afterEach(() => {
+    myBoard.resetBoard();
+  });
 
   it('Places battleship on board vertically', () => {
     const clickedCoord = [1, 2]; // [y(row), x(column)]
-    Gameboard.placeShip(clickedCoord, battleship);
-    expect(Gameboard.board[1][2]).toBeTruthy();
-    expect(Gameboard.board[2][2]).toBeTruthy();
-    expect(Gameboard.board[3][2]).toBeTruthy();
-    expect(Gameboard.board[4][2]).toBeTruthy();
+    myBoard.placeShip(clickedCoord, battleship);
+    expect(myBoard.board[1][2]).toBeTruthy();
+    expect(myBoard.board[2][2]).toBeTruthy();
+    expect(myBoard.board[3][2]).toBeTruthy();
+    expect(myBoard.board[4][2]).toBeTruthy();
   });
 
   it('Places battleship on board horizontally', () => {
     const clickedCoord = [1, 2];
-    Gameboard.placeShip(clickedCoord, battleship, true);
-    expect(Gameboard.board[1][2]).toBeTruthy();
-    expect(Gameboard.board[1][3]).toBeTruthy();
-    expect(Gameboard.board[1][4]).toBeTruthy();
-    expect(Gameboard.board[1][5]).toBeTruthy();
+    myBoard.placeShip(clickedCoord, battleship, true);
+    expect(myBoard.board[1][2]).toBeTruthy();
+    expect(myBoard.board[1][3]).toBeTruthy();
+    expect(myBoard.board[1][4]).toBeTruthy();
+    expect(myBoard.board[1][5]).toBeTruthy();
   });
 
   it('Does not allow placement of horizontal ship past right side of board', () => {
     const clickedCoord = [3, 9];
-    expect(Gameboard.placeShip(clickedCoord, battleship, true)).toBe(false);
+    expect(myBoard.placeShip(clickedCoord, battleship, true)).toBe(false);
   });
 
   it('Does not allow placement of vertical ship past bottom side of board', () => {
     const clickedCoord = [9, 2];
-    expect(Gameboard.placeShip(clickedCoord, battleship, false)).toBe(false);
+    expect(myBoard.placeShip(clickedCoord, battleship, false)).toBe(false);
   });
 });
 
 describe('Check for overlapping ship placement', () => {
-  afterAll(() => {
-    Gameboard.resetBoard();
-  });
-
   const battleship = new Ship(4);
   const cruiser = new Ship(3);
+  const myBoard = new Gameboard();
+  afterAll(() => {
+    myBoard.resetBoard();
+  });
 
   it('Does not allow placement of horizontal ship ontop another', () => {
     const clickedCoord = [1, 2];
-    Gameboard.placeShip(clickedCoord, battleship, true);
-    expect(Gameboard.placeShip(clickedCoord, cruiser, true)).toBe(false);
+    myBoard.placeShip(clickedCoord, battleship, true);
+    expect(myBoard.placeShip(clickedCoord, cruiser, true)).toBe(false);
   });
 
   it('Does not allow placement of vertical ship ontop another', () => {
     const clickedCoord = [1, 2];
-    Gameboard.placeShip(clickedCoord, battleship, true);
-    expect(Gameboard.placeShip(clickedCoord, cruiser, false)).toBe(false);
+    myBoard.placeShip(clickedCoord, battleship, true);
+    expect(myBoard.placeShip(clickedCoord, cruiser, false)).toBe(false);
   });
 });
 
 describe('Handling attacks', () => {
+  const myBoard = new Gameboard();
   let cruiser;
   beforeEach(() => {
     cruiser = new Ship(3);
-    Gameboard.placeShip([2, 4], cruiser, false);
+    myBoard.placeShip([2, 4], cruiser, false);
   });
   afterEach(() => {
-    Gameboard.resetBoard();
+    myBoard.resetBoard();
   });
 
   it("Ship's hit score returns 1 when hit once", () => {
-    Gameboard.receiveAttack([2, 4]);
+    myBoard.receiveAttack([2, 4]);
     expect(cruiser.getHits()).toBe(1);
   });
 
   it("Ship's hit score returns 2 when hit twice", () => {
-    Gameboard.receiveAttack([2, 4]);
-    Gameboard.receiveAttack([3, 4]);
+    myBoard.receiveAttack([2, 4]);
+    myBoard.receiveAttack([3, 4]);
     expect(cruiser.getHits()).toBe(2);
   });
 
   it('Square has attackStatus of "hit" if attack was a hit', () => {
-    Gameboard.receiveAttack([2, 4]);
-    expect(Gameboard.getAttackStatus([2, 4])).toBe('hit');
+    myBoard.receiveAttack([2, 4]);
+    expect(myBoard.getAttackStatus([2, 4])).toBe('hit');
   });
 
   it('Square has attackStatus of "miss" if attack was a miss', () => {
-    Gameboard.receiveAttack([0, 4]);
-    expect(Gameboard.getAttackStatus([0, 4])).toBe('miss');
+    myBoard.receiveAttack([0, 4]);
+    expect(myBoard.getAttackStatus([0, 4])).toBe('miss');
   });
 
   it('Square has attackStatus of null if not previously attacked', () => {
-    expect(Gameboard.getAttackStatus([0, 4])).toBe(null);
+    expect(myBoard.getAttackStatus([0, 4])).toBe(null);
   });
 
   it('Does not allow attack on previously attacked square', () => {
-    Gameboard.receiveAttack([0, 4]);
-    expect(Gameboard.receiveAttack([0, 4])).toBeUndefined();
+    myBoard.receiveAttack([0, 4]);
+    expect(myBoard.receiveAttack([0, 4])).toBeUndefined();
   });
 
   it('Sunken ship returns true from isSunk', () => {
-    Gameboard.receiveAttack([2, 4]);
-    Gameboard.receiveAttack([3, 4]);
-    Gameboard.receiveAttack([4, 4]);
+    myBoard.receiveAttack([2, 4]);
+    myBoard.receiveAttack([3, 4]);
+    myBoard.receiveAttack([4, 4]);
     expect(cruiser.isSunk()).toBe(true);
   });
 
   it('Damaged but un-sunken ship returns false from isSunk', () => {
-    Gameboard.receiveAttack([2, 4]);
-    Gameboard.receiveAttack([3, 4]);
+    myBoard.receiveAttack([2, 4]);
+    myBoard.receiveAttack([3, 4]);
     expect(cruiser.isSunk()).toBe(false);
   });
 });
 
 describe('Report if all ships down', () => {
+  const myBoard = new Gameboard();
   let cruiser;
   let destoryer;
   beforeEach(() => {
     cruiser = new Ship(3);
     destoryer = new Ship(2);
-    Gameboard.placeShip([1, 1], destoryer, false);
-    Gameboard.placeShip([7, 6], cruiser, true);
+    myBoard.placeShip([1, 1], destoryer, false);
+    myBoard.placeShip([7, 6], cruiser, true);
   });
   afterEach(() => {
-    Gameboard.resetBoard();
+    myBoard.resetBoard();
   });
 
   it('allShipsDown returns true when all ships have sunk', () => {
-    Gameboard.receiveAttack([1, 1]);
-    Gameboard.receiveAttack([2, 1]);
-    Gameboard.receiveAttack([7, 6]);
-    Gameboard.receiveAttack([7, 7]);
-    Gameboard.receiveAttack([7, 8]);
-    expect(Gameboard.allShipsDown()).toBe(true);
+    myBoard.receiveAttack([1, 1]);
+    myBoard.receiveAttack([2, 1]);
+    myBoard.receiveAttack([7, 6]);
+    myBoard.receiveAttack([7, 7]);
+    myBoard.receiveAttack([7, 8]);
+    expect(myBoard.allShipsDown()).toBe(true);
   });
 
   it('allShipsDown returns false when some ships still floating', () => {
-    Gameboard.receiveAttack([1, 1]);
-    Gameboard.receiveAttack([7, 6]);
-    expect(Gameboard.allShipsDown()).toBe(false);
+    myBoard.receiveAttack([1, 1]);
+    myBoard.receiveAttack([7, 6]);
+    expect(myBoard.allShipsDown()).toBe(false);
+  });
+});
+
+describe('Handle a player and opponent board separately', () => {
+  it('Places separate ship instances on each board', () => {
+    const player = new Gameboard();
+    const cruiser = new Ship(3);
+    player.placeShip([1, 1], cruiser, false);
+    expect(player.board[1][1].ship).toBe(cruiser);
+    expect(player.board[2][1].ship).toBe(cruiser);
+    expect(player.board[3][1].ship).toBe(cruiser);
+
+    const opponent = new Gameboard();
+    const destoryer = new Ship(2);
+    opponent.placeShip([1, 1], destoryer, false);
+    expect(opponent.board[1][1].ship).toBe(destoryer);
+    expect(opponent.board[2][1].ship).toBe(destoryer);
+    expect(opponent.board[3][1]).toBe(null);
   });
 });

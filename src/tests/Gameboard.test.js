@@ -97,4 +97,17 @@ describe('Handling attacks', () => {
     Gameboard.receiveAttack([0, 4]);
     expect(Gameboard.receiveAttack([0, 4])).toBeUndefined();
   });
+
+  it('Sunken ship returns true from isSunk', () => {
+    Gameboard.receiveAttack([2, 4]);
+    Gameboard.receiveAttack([3, 4]);
+    Gameboard.receiveAttack([4, 4]);
+    expect(cruiser.isSunk()).toBe(true);
+  });
+
+  it('Damaged but un-sunken ship returns false from isSunk', () => {
+    Gameboard.receiveAttack([2, 4]);
+    Gameboard.receiveAttack([3, 4]);
+    expect(cruiser.isSunk()).toBe(false);
+  });
 });

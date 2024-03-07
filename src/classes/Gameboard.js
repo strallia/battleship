@@ -14,9 +14,9 @@ export default class Gameboard {
     Gameboard.board = Gameboard.#getNewBoard();
   }
 
-  static placeShip(clickedCoord, ship, isHorizontal) {
+  static placeShip(clickedCoord, shipInstance, isHorizontal) {
     const [y, x] = clickedCoord;
-    const length = ship.getLength();
+    const length = shipInstance.getLength();
 
     // check if ship is off the board
     const sternPositon = (isHorizontal ? x : y) + length;
@@ -25,7 +25,7 @@ export default class Gameboard {
     // check if ship is being placed ontop another
     const proposedShipCoordinates = Gameboard.#getShipCoordinates(
       clickedCoord,
-      ship,
+      shipInstance,
       isHorizontal,
     );
     const coordinatesVacancy = proposedShipCoordinates.map((coord) =>
@@ -42,16 +42,19 @@ export default class Gameboard {
       (yCount === 0 && xCount < length) ||
       (yCount < length && xCount === 0)
     ) {
-      Gameboard.board[y + yCount][x + xCount] = ship;
+      Gameboard.board[y + yCount][x + xCount] = {
+        ship: shipInstance,
+        hasAttacked: false,
+      };
       if (isHorizontal) xCount += 1;
       else yCount += 1;
     }
     return true;
   }
 
-  static #getShipCoordinates(clickedCoord, ship, isHorizontal) {
+  static #getShipCoordinates(clickedCoord, shipInstance, isHorizontal) {
     const [y, x] = clickedCoord;
-    const length = ship.getLength();
+    const length = shipInstance.getLength();
     const coords = [];
     if (isHorizontal) {
       for (let i = 0; i < length; i += 1) {
@@ -69,7 +72,8 @@ export default class Gameboard {
     const [y, x] = coord;
     const hasShip = Gameboard.board[y][x];
     if (hasShip) {
-      hasShip.hit();
+      hasShip.ship.hit();
+      hasShip.hasAttacked = true;
       return true;
     }
     return false;

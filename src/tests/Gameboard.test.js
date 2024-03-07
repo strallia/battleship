@@ -87,7 +87,14 @@ describe('Handling attacks', () => {
     expect(cruiser.getHits()).toBe(2);
   });
 
-  // it('Records on square that a successful attack was a hit');
-  // it('Records on square that an unsuccessful attack was a miss');
+  it('Records on previously attacked square that it has already been attacked', () => {
+    Gameboard.receiveAttack([2, 4]);
+    expect(Gameboard.board[2][4].hasAttacked).toBe(true);
+  });
+
+  it('Records on un-attacked square that it has not been attacked', () => {
+    expect(Gameboard.board[2][4].hasAttacked).toBe(false);
+  });
+
   // it('Does not allow attack on prviously attacked square');
 });

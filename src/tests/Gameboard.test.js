@@ -1,7 +1,7 @@
 import Ship from '../classes/Ship';
 import Gameboard from '../classes/Gameboard';
 
-describe('Reset board after each test to check for valid ship placement', () => {
+describe('Check for single ship placement', () => {
   afterEach(() => {
     Gameboard.resetBoard();
   });
@@ -37,7 +37,7 @@ describe('Reset board after each test to check for valid ship placement', () => 
   });
 });
 
-describe('Using only single board to check for overlapping ship placement', () => {
+describe('Check for overlapping ship placement', () => {
   afterAll(() => {
     Gameboard.resetBoard();
   });

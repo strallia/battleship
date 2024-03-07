@@ -11,7 +11,7 @@ describe('Reset board after each test to check for valid ship placement', () => 
   it('Places battleship on board vertically', () => {
     const clickedCoord = [1, 2]; // [y(row), x(column)]
     Gameboard.placeShip(clickedCoord, battleship);
-    expect(Gameboard.board[1][2]);
+    expect(Gameboard.board[1][2]).toBeInstanceOf(Ship);
     expect(Gameboard.board[2][2]).toBeInstanceOf(Ship);
     expect(Gameboard.board[3][2]).toBeInstanceOf(Ship);
     expect(Gameboard.board[4][2]).toBeInstanceOf(Ship);
@@ -58,9 +58,35 @@ describe('Using only single board to check for overlapping ship placement', () =
   });
 });
 
-describe('Handling an attack', () => {
-  it("Increments ship's hit score on successful attack");
-  it('Records on square that a successful attack was a hit');
-  it('Records on square that an unsuccessful attack was a miss');
-  it('Does not allow attack on prviously attacked square');
+describe('Handling attacks', () => {
+  const cruiser = new Ship(3);
+  beforeEach(() => {
+    Gameboard.placeShip([2, 4], cruiser, false);
+  });
+  afterEach(() => {
+    Gameboard.resetBoard();
+  });
+
+  it('receiveAttack returns true when its a hit', () => {
+    expect(Gameboard.receiveAttack([2, 4])).toBe(true);
+  });
+
+  it('receiveAttack returns false when its a miss', () => {
+    expect(Gameboard.receiveAttack([1, 4])).toBe(false);
+  });
+
+  // it("Ship's hit score returns 1 when hit once", () => {
+  //   Gameboard.receiveAttack([2, 4]);
+  //   expect(cruiser.getHits()).toBe(1);
+  // });
+
+  // it("Ship's hit score returns 2 when hit twice", () => {
+  //   Gameboard.receiveAttack([2, 4]);
+  //   Gameboard.receiveAttack([3, 4]);
+  //   expect(cruiser.hits).toBe(1);
+  // });
+
+  // it('Records on square that a successful attack was a hit');
+  // it('Records on square that an unsuccessful attack was a miss');
+  // it('Does not allow attack on prviously attacked square');
 });

@@ -7,6 +7,16 @@ export default class Player {
   }
 
   getBoard() {
-    return this.gameboard;
+    return this.gameboard.board;
+  }
+
+  getComputerAttack() {
+    let coord;
+    let isPositionOpen = false;
+    while (!isPositionOpen) {
+      coord = [null, null].map(() => Math.floor(Math.random() * 10));
+      isPositionOpen = !this.getBoard()[coord[0]][coord[1]];
+    }
+    return coord;
   }
 }

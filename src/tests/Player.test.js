@@ -18,16 +18,15 @@ it("Each players's board is a separate gameboard instance", () => {
 });
 
 describe("Getting computer's attack", () => {
-  let spyMathRandom;
-  let player1;
+  const player = new Player('Leah');
   let coord;
-  beforeAll(() => {
-    player1 = new Player('Leah');
-    spyMathRandom = jest.spyOn(global.Math, 'random');
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 
   it('Calls Math.random', () => {
-    coord = player1.getComputerAttack();
+    const spyMathRandom = jest.spyOn(global.Math, 'random');
+    coord = player.getComputerAttack();
     expect(spyMathRandom).toHaveBeenCalled();
   });
 
@@ -44,15 +43,21 @@ describe("Getting computer's attack", () => {
     // fill board except for one square
     for (let i = 0; i < 10; i += 1) {
       for (let j = 0; j < 10; j += 1) {
-        player1.gameboard.receiveAttack([i, j]);
+        player.gameboard.receiveAttack([i, j]);
       }
     }
-    player1.getBoard()[0][0] = null;
+    player.getBoard()[0][0] = null;
 
     // expect to return the only open square
-    const [y, x] = player1.getComputerAttack();
+    const [y, x] = player.getComputerAttack();
     expect(y).toBe(0);
     expect(x).toBe(0);
-    player1.gameboard.resetBoard();
+    player.gameboard.resetBoard();
+  });
+
+  it("Sends attack to player's board", () => {
+    const spyReceiveAttack = jest.spyOn(player.gameboard, 'receiveAttack');
+    player.getComputerAttack();
+    expect(spyReceiveAttack).toHaveBeenCalled();
   });
 });

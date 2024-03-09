@@ -1,5 +1,4 @@
 import Player from '../classes/Player';
-import Gameboard from '../classes/Gameboard';
 
 it("Returns player's name", () => {
   const player1 = new Player('Leah');

@@ -39,7 +39,7 @@ export default class Gameboard {
     const length = shipInstance.getLength();
 
     // check if ship is off the board
-    const sternPositon = (isHorizontal ? x : y) + length;
+    const sternPositon = (isHorizontal ? x : y) + (length - 1);
     if (sternPositon > 9) return false;
 
     // check if ship is being placed ontop another

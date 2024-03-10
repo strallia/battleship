@@ -4,7 +4,7 @@ const shipsBoardDiv = document.querySelector('.ships.board');
 const attacksBoardDiv = document.querySelector('.attacks.board');
 
 const updateScreen = () => {
-  // clear out all boards
+  // clear boards
   shipsBoardDiv.textContent = '';
   attacksBoardDiv.textContent = '';
 
@@ -20,6 +20,14 @@ const updateScreen = () => {
       const hasShip = square === null ? false : Object.hasOwn(square, 'ship');
       if (hasShip) {
         shipsBoardButton.classList.add('ship');
+      }
+
+      // color hit and missed attacks
+      const hasAttackStatus =
+        square === null ? false : Object.hasOwn(square, 'attackStatus');
+      if (hasAttackStatus) {
+        const { attackStatus } = square;
+        attacksBoardButton.classList.add(attackStatus);
       }
 
       // add data attributes for coordinates

@@ -22,3 +22,11 @@ button {
 button.ship {
   background-color: rebeccapurple;
 }
+
+button.hit {
+  background-color: maroon;
+}
+
+button.miss {
+  background-color: grey;
+}

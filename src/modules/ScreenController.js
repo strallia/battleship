@@ -2,7 +2,6 @@ import { player, playRound } from './GameController';
 
 const shipsBoardDiv = document.querySelector('.ships.board');
 const attacksBoardDiv = document.querySelector('.attacks.board');
-
 const updateScreen = () => {
   // clear boards
   shipsBoardDiv.textContent = '';
@@ -58,11 +57,19 @@ const updateScreen = () => {
 };
 updateScreen();
 
+const announcementDiv = document.querySelector('.announcement');
+const updateAnnouncement = (string) => {
+  announcementDiv.textContent = string;
+};
+updateAnnouncement('Send your attack');
+
 const handleBoardClick = (targetSquare) => {
+  // play a round
   const { y, x } = targetSquare.dataset;
   playRound([y, x]);
+
+  // update DOM
+  updateAnnouncement();
   updateScreen();
 };
 attacksBoardDiv.addEventListener('click', (e) => handleBoardClick(e.target));
-
-export { updateScreen };

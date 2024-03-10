@@ -5,8 +5,20 @@
 }
 
 body {
-  display: flex;
-  gap: 20px;
+  margin: 30px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  row-gap: 30px;
+}
+
+.announcement {
+  grid-column: 1/3;
+  padding: 20px;
+  width: 50%;
+  text-align: center;
+  background-color: whitesmoke;
 }
 
 div.board {

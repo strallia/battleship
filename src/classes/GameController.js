@@ -16,6 +16,8 @@ let activePlayer = player[0];
 
 const getActivePlayer = () => activePlayer;
 
+const getBoard = () => activePlayer.board.board;
+
 const switchPlayerTurn = () => {
   activePlayer = activePlayer === player[0] ? player[1] : player[0];
 };

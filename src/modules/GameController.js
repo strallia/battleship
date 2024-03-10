@@ -50,11 +50,13 @@ const switchPlayerTurn = () => {
 };
 
 const playRound = (coord) => {
-  // send attack to enemy's board
-  const enemy = (activePlayer === player[0] ? player[1] : player[0]).board;
-  enemy.receiveAttack(coord);
+  // send attack to computer's board
+  player[1].gameboard.receiveAttack(coord);
+  console.log('attacked computer', player[1].gameboard.board);
 
-  switchPlayerTurn();
+  // computer attacks player
+  player[0].gameboard.getComputerAttack();
+  console.log('computer attacked me', player[1].gameboard.board);
 };
 
 export { playRound, getBoard, player };

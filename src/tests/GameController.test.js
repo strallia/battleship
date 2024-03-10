@@ -1,5 +1,5 @@
 import Gameboard from '../classes/Gameboard';
-import { playRound } from '../classes/GameController';
+import { playRound } from '../modules/GameController';
 
 beforeAll(() => {
   jest.spyOn(Gameboard.prototype, 'receiveAttack').mockImplementation();

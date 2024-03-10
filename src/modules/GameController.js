@@ -1,5 +1,5 @@
-import Gameboard from './Gameboard';
-import Player from './Player';
+import Gameboard from '../classes/Gameboard';
+import Player from '../classes/Player';
 
 const player = [
   {

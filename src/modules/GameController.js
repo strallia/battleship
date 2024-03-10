@@ -47,26 +47,6 @@ const switchEnemy = () => {
   enemy = enemy === player[0] ? player[1] : player[0];
 };
 
-const playRound = (coord) => {
-  // - send attack to computer's board
-  player[1].gameboard.receiveAttack(coord);
-  console.log('attacked computer', player[1].gameboard.board);
-
-  // - rerender Attacks Board
-
-  // check if you sunk any of computer's ships with that attack
-  // if so, announce which ship you sunk
-  // else, leave announcement blank
-
-  // then announce 'waiting for computer' for a few seconds
-
-  // - computer attacks player
-  player[0].gameboard.getComputerAttack();
-  console.log('computer attacked me', player[0].gameboard.board);
-
-  // - update left board with computer's new attack
-};
-
 const playPlayerAttack = (coord) => {
   player[1].gameboard.receiveAttack(coord);
   console.log('attacked computer', player[1].gameboard.board);

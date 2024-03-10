@@ -160,3 +160,30 @@ describe('Handle a player and opponent board separately', () => {
     expect(opponent.board[3][1]).toBe(null);
   });
 });
+
+describe("Getting computer's attack", () => {
+  const gameboard = new Gameboard('Leah');
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('Calls Math.random', () => {
+    const spyMathRandom = jest.spyOn(global.Math, 'random');
+    gameboard.getComputerAttack();
+    expect(spyMathRandom).toHaveBeenCalled();
+  });
+
+  it('Sends attack to a coordinate that is open', () => {
+    // fill board except for one square
+    for (let i = 0; i < 10; i += 1) {
+      for (let j = 0; j < 10; j += 1) {
+        gameboard.receiveAttack([i, j]);
+      }
+    }
+    gameboard.board[0][0] = null;
+
+    // expect computer to have attacked the only open square
+    gameboard.getComputerAttack();
+    expect(gameboard.board[0][0]).toBeTruthy();
+  });
+});

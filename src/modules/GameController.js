@@ -30,4 +30,4 @@ const playRound = (coord) => {
   switchPlayerTurn();
 };
 
-export { playRound };
+export { playRound, getBoard };

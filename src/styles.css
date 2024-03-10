@@ -15,6 +15,10 @@ div.board {
   grid-template-rows: repeat(10, 40px);
 }
 
+div.board.ships > * {
+  pointer-events: none;
+}
+
 button {
   outline: 1px solid darkgrey;
 }

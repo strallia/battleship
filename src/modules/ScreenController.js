@@ -75,7 +75,18 @@ const updateAnnouncement = (string) => {
 };
 updateAnnouncement('Send your attack');
 
+const disableAttacksBoard = () => {
+  attacksBoardDiv.classList.add('disable');
+};
+
+const enableAttacksBoard = () => {
+  attacksBoardDiv.classList.remove('disable');
+};
+
 const handleAttacksBoardClick = async (targetSquare) => {
+  // disable clicks until round completes
+  disableAttacksBoard();
+
   // run player's attack
   const { y, x } = targetSquare.dataset;
   playPlayerAttack([y, x]);
@@ -97,6 +108,8 @@ const handleAttacksBoardClick = async (targetSquare) => {
   // update announcement
   updateAnnouncement('Send your attack');
   switchEnemy();
+
+  enableAttacksBoard();
 };
 attacksBoardDiv.addEventListener('click', (e) =>
   handleAttacksBoardClick(e.target),

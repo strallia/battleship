@@ -28,7 +28,7 @@ div.board {
   grid-template-rows: repeat(10, 40px);
 }
 
-div.board.ships > * {
+.disable {
   pointer-events: none;
 }
 

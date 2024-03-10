@@ -16,17 +16,23 @@ div.board {
 }
 
 button {
-  outline: 1px solid red;
+  outline: 1px solid darkgrey;
 }
 
 button.ship {
   background-color: rebeccapurple;
 }
 
-button.hit {
-  background-color: maroon;
+button.hit::before {
+  content: 'X';
+  color: red;
+  font-weight: bolder;
+  font-size: 24px;
 }
 
-button.miss {
-  background-color: grey;
+button.miss::before {
+  content: 'O';
+  color: gray;
+  font-weight: bolder;
+  font-size: 24px;
 }

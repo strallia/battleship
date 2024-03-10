@@ -1,4 +1,4 @@
-import { getBoard, playRound } from './GameController';
+import { player, playRound } from './GameController';
 
 const shipsBoardDiv = document.querySelector('.ships.board');
 const attacksBoardDiv = document.querySelector('.attacks.board');
@@ -9,14 +9,14 @@ const updateScreen = () => {
   attacksBoardDiv.textContent = '';
 
   // reload active player's boards
-  const activePlayerBoard = getBoard();
-  activePlayerBoard.forEach((row, rowIndex) => {
+  const playerBoard = player[0].board.board;
+  playerBoard.forEach((row, rowIndex) => {
     row.forEach((column, columnIndex) => {
       const shipsBoardButton = document.createElement('button');
       const attacksBoardButton = document.createElement('button');
 
       // color ships
-      const square = activePlayerBoard[rowIndex][columnIndex];
+      const square = playerBoard[rowIndex][columnIndex];
       const hasShip = square === null ? false : Object.hasOwn(square, 'ship');
       if (hasShip) {
         shipsBoardButton.classList.add('ship');

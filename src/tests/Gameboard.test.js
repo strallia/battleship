@@ -163,6 +163,7 @@ describe('Handle a player and opponent board separately', () => {
 
 describe("Getting computer's attack", () => {
   const gameboard = new Gameboard('Leah');
+  let coord;
   afterAll(() => {
     jest.restoreAllMocks();
   });
@@ -183,7 +184,15 @@ describe("Getting computer's attack", () => {
     gameboard.board[0][0] = null;
 
     // expect computer to have attacked the only open square
-    gameboard.getComputerAttack();
+    coord = gameboard.getComputerAttack();
     expect(gameboard.board[0][0]).toBeTruthy();
+  });
+
+  it('Returns a coordinate within the board boundaries', () => {
+    const [y, x] = coord;
+    expect(y).toBeGreaterThanOrEqual(0);
+    expect(y).toBeLessThanOrEqual(9);
+    expect(x).toBeGreaterThanOrEqual(0);
+    expect(x).toBeLessThanOrEqual(9);
   });
 });

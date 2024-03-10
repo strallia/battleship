@@ -39,24 +39,65 @@ placeHits();
 console.log('player', player[0].gameboard.board);
 console.log('computer', player[1].gameboard.board);
 
-let activePlayer = player[0];
+let enemy = player[1];
 
-const getActivePlayer = () => activePlayer;
+const getEnemy = () => enemy;
 
-const getBoard = () => activePlayer.gameboard.board;
-
-const switchPlayerTurn = () => {
-  activePlayer = activePlayer === player[0] ? player[1] : player[0];
+const switchEnemy = () => {
+  enemy = enemy === player[0] ? player[1] : player[0];
 };
 
 const playRound = (coord) => {
-  // send attack to computer's board
+  // - send attack to computer's board
   player[1].gameboard.receiveAttack(coord);
   console.log('attacked computer', player[1].gameboard.board);
 
-  // computer attacks player
+  // - rerender Attacks Board
+
+  // check if you sunk any of computer's ships with that attack
+  // if so, announce which ship you sunk
+  // else, leave announcement blank
+
+  // then announce 'waiting for computer' for a few seconds
+
+  // - computer attacks player
   player[0].gameboard.getComputerAttack();
+  console.log('computer attacked me', player[0].gameboard.board);
+
+  // - update left board with computer's new attack
+};
+
+const playPlayerAttack = (coord) => {
+  player[1].gameboard.receiveAttack(coord);
+  console.log('attacked computer', player[1].gameboard.board);
+};
+
+let computersAttackCoord;
+const playComputerAttack = (coord) => {
+  computersAttackCoord = player[0].gameboard.getComputerAttack();
   console.log('computer attacked me', player[0].gameboard.board);
 };
 
-export { playRound, getBoard, player };
+const getAnnouncement = (attackedCoord = computersAttackCoord) => {
+  const [y, x] = attackedCoord;
+  const enemySquare = getEnemy().gameboard.board[y][x];
+
+  const hasShip =
+    enemySquare === null ? false : Object.hasOwn(enemySquare, 'ship');
+  if (hasShip) {
+    const { ship } = enemySquare;
+    if (ship.isSunk()) return "You sunk Enemy's ship";
+  }
+  return '';
+};
+
+const delay = (msec) => new Promise((res) => setTimeout(res, msec));
+
+export {
+  player,
+  playPlayerAttack,
+  playComputerAttack,
+  getAnnouncement,
+  switchEnemy,
+  delay,
+};

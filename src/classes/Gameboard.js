@@ -107,5 +107,6 @@ export default class Gameboard {
 
     // send computer's attack
     this.receiveAttack(coord);
+    return coord;
   }
 }

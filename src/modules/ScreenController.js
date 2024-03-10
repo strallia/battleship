@@ -1,13 +1,18 @@
-import { player, playRound } from './GameController';
+import {
+  delay,
+  getAnnouncement,
+  playComputerAttack,
+  player,
+  playPlayerAttack,
+  switchEnemy,
+} from './GameController';
 
 const shipsBoardDiv = document.querySelector('.ships.board');
-const attacksBoardDiv = document.querySelector('.attacks.board');
-const updateScreen = () => {
-  // clear boards
+const updateShipsBoard = () => {
+  // clear board
   shipsBoardDiv.textContent = '';
-  attacksBoardDiv.textContent = '';
 
-  // load player's ships-board
+  // load each square
   const playerBoard = player[0].gameboard.board;
   playerBoard.forEach((row, rowIndex) => {
     row.forEach((column, columnIndex) => {
@@ -31,8 +36,15 @@ const updateScreen = () => {
       shipsBoardDiv.appendChild(button);
     });
   });
+};
+updateShipsBoard();
 
-  // load player's attacks-board with attacks to computer
+const attacksBoardDiv = document.querySelector('.attacks.board');
+const updateAttacksBoard = () => {
+  // clear board
+  attacksBoardDiv.textContent = '';
+
+  // load each square
   const computerBoard = player[1].gameboard.board;
   computerBoard.forEach((row, rowIndex) => {
     row.forEach((column, columnIndex) => {
@@ -55,7 +67,7 @@ const updateScreen = () => {
     });
   });
 };
-updateScreen();
+updateAttacksBoard();
 
 const announcementDiv = document.querySelector('.announcement');
 const updateAnnouncement = (string) => {
@@ -63,13 +75,29 @@ const updateAnnouncement = (string) => {
 };
 updateAnnouncement('Send your attack');
 
-const handleBoardClick = (targetSquare) => {
-  // play a round
+const handleAttacksBoardClick = async (targetSquare) => {
+  // run player's attack
   const { y, x } = targetSquare.dataset;
-  playRound([y, x]);
+  playPlayerAttack([y, x]);
+  updateAttacksBoard();
 
-  // update DOM
-  updateAnnouncement();
-  updateScreen();
+  // update announcement
+  updateAnnouncement(getAnnouncement([y, x]));
+  switchEnemy();
+  await delay(1000);
+
+  // announce waiting for computer's attack
+  updateAnnouncement('Waiting for Computer...');
+  await delay(1000);
+
+  // run computer's attack
+  playComputerAttack();
+  updateShipsBoard();
+
+  // update announcement
+  updateAnnouncement('Send your attack');
+  switchEnemy();
 };
-attacksBoardDiv.addEventListener('click', (e) => handleBoardClick(e.target));
+attacksBoardDiv.addEventListener('click', (e) =>
+  handleAttacksBoardClick(e.target),
+);

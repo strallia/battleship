@@ -95,4 +95,17 @@ export default class Gameboard {
     if (allDown) return true;
     return false;
   }
+
+  getComputerAttack() {
+    // get random, open position
+    let coord;
+    let isPositionOpen = false;
+    while (!isPositionOpen) {
+      coord = [null, null].map(() => Math.floor(Math.random() * 10));
+      isPositionOpen = !this.board[coord[0]][coord[1]];
+    }
+
+    // send computer's attack
+    this.receiveAttack(coord);
+  }
 }

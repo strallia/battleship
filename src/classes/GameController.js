@@ -22,4 +22,12 @@ const switchPlayerTurn = () => {
   activePlayer = activePlayer === player[0] ? player[1] : player[0];
 };
 
-const playRound = () => {};
+const playRound = (coord) => {
+  // send attack to enemy's board
+  const enemy = (activePlayer === player[0] ? player[1] : player[0]).board;
+  enemy.receiveAttack(coord);
+
+  switchPlayerTurn();
+};
+
+export { playRound };

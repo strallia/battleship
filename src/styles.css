@@ -9,7 +9,7 @@ body {
   gap: 20px;
 }
 
-div {
+div.board {
   display: grid;
   grid-template-columns: repeat(10, 40px);
   grid-template-rows: repeat(10, 40px);
@@ -17,4 +17,8 @@ div {
 
 button {
   outline: 1px solid red;
+}
+
+button.ship {
+  background-color: rebeccapurple;
 }

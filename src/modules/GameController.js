@@ -56,7 +56,7 @@ const playRound = (coord) => {
 
   // computer attacks player
   player[0].gameboard.getComputerAttack();
-  console.log('computer attacked me', player[1].gameboard.board);
+  console.log('computer attacked me', player[0].gameboard.board);
 };
 
 export { playRound, getBoard, player };

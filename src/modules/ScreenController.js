@@ -60,8 +60,8 @@ updateScreen();
 
 const handleBoardClick = (targetSquare) => {
   const { y, x } = targetSquare.dataset;
-  // playRound([y, x]);
-  // updateScreen();
+  playRound([y, x]);
+  updateScreen();
 };
 attacksBoardDiv.addEventListener('click', (e) => handleBoardClick(e.target));
 

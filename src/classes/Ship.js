@@ -3,9 +3,20 @@ export default class Ship {
 
   #hits;
 
-  constructor(length) {
-    this.#length = length;
+  #name;
+
+  constructor(name) {
+    this.#name = name;
     this.#hits = 0;
+    this.#setLength();
+  }
+
+  #setLength() {
+    if (this.#name === 'carrier') this.#length = 5;
+    else if (this.#name === 'battleship') this.#length = 4;
+    else if (this.#name === 'cruiser') this.#length = 3;
+    else if (this.#name === 'submarine') this.#length = 3;
+    else if (this.#name === 'destroyer') this.#length = 2;
   }
 
   getLength() {
@@ -14,6 +25,10 @@ export default class Ship {
 
   getHits() {
     return this.#hits;
+  }
+
+  getName() {
+    return this.#name;
   }
 
   hit() {

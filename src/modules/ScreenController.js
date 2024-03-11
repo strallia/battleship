@@ -8,6 +8,9 @@ import {
 } from './GameController';
 
 const shipsBoardDiv = document.querySelector('.ships.board');
+const attacksBoardDiv = document.querySelector('.attacks.board');
+const announcementDiv = document.querySelector('.announcement');
+
 const updateShipsBoard = () => {
   // clear board
   shipsBoardDiv.textContent = '';
@@ -39,7 +42,6 @@ const updateShipsBoard = () => {
 };
 updateShipsBoard();
 
-const attacksBoardDiv = document.querySelector('.attacks.board');
 const updateAttacksBoard = () => {
   // clear board
   attacksBoardDiv.textContent = '';
@@ -69,18 +71,17 @@ const updateAttacksBoard = () => {
 };
 updateAttacksBoard();
 
-const announcementDiv = document.querySelector('.announcement');
 const updateAnnouncement = (string) => {
   announcementDiv.textContent = string;
 };
 updateAnnouncement('Send your attack');
 
 const disableAttacksBoard = () => {
-  attacksBoardDiv.classList.add('disable');
+  attacksBoardDiv.classList.add('disable-pointer');
 };
 
 const enableAttacksBoard = () => {
-  attacksBoardDiv.classList.remove('disable');
+  attacksBoardDiv.classList.remove('disable-pointer');
 };
 
 const handleAttacksBoardClick = async (targetSquare) => {
@@ -115,6 +116,8 @@ const handleAttacksBoardClick = async (targetSquare) => {
 
   enableAttacksBoard();
 };
-attacksBoardDiv.addEventListener('click', (e) =>
-  handleAttacksBoardClick(e.target),
-);
+attacksBoardDiv.addEventListener('click', (e) => {
+  const targetClasses = e.target.classList;
+  if (!targetClasses.contains('hit') && !targetClasses.contains('miss'))
+    handleAttacksBoardClick(e.target);
+});

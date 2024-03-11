@@ -28,7 +28,7 @@ div.board {
   grid-template-rows: repeat(10, 40px);
 }
 
-.disable {
+.disable-pointer {
   pointer-events: none;
 }
 

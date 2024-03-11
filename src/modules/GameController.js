@@ -33,12 +33,9 @@ const placeHits = () => {
   player[1].gameboard.receiveAttack([1, 2]);
   player[1].gameboard.receiveAttack([8, 3]);
 
-  for (let i = 0; i < 10; i += 1) {
-    for (let j = 0; j < 10; j += 1) {
-      if (i === 4 && j === 2) continue;
-      player[0].gameboard.receiveAttack([i, j]);
-    }
-  }
+  player[0].gameboard.receiveAttack([0, 0]);
+  player[0].gameboard.receiveAttack([3, 8]);
+  player[0].gameboard.receiveAttack([9, 9]);
 };
 placeHits();
 console.log('player', player[0].gameboard.board);

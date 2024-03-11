@@ -2,7 +2,7 @@ import Ship from '../classes/Ship';
 import Gameboard from '../classes/Gameboard';
 
 describe('Check for single ship placement', () => {
-  const battleship = new Ship(4);
+  const battleship = new Ship('battleship');
   const myBoard = new Gameboard();
   afterEach(() => {
     myBoard.resetBoard();
@@ -38,8 +38,8 @@ describe('Check for single ship placement', () => {
 });
 
 describe('Check for overlapping ship placement', () => {
-  const battleship = new Ship(4);
-  const cruiser = new Ship(3);
+  const battleship = new Ship('battleship');
+  const cruiser = new Ship('cruiser');
   const myBoard = new Gameboard();
   afterAll(() => {
     myBoard.resetBoard();
@@ -62,7 +62,7 @@ describe('Handling attacks', () => {
   const myBoard = new Gameboard();
   let cruiser;
   beforeEach(() => {
-    cruiser = new Ship(3);
+    cruiser = new Ship('cruiser');
     myBoard.placeShip([2, 4], cruiser, false);
   });
   afterEach(() => {
@@ -118,8 +118,8 @@ describe('Report if all ships down', () => {
   let cruiser;
   let destoryer;
   beforeEach(() => {
-    cruiser = new Ship(3);
-    destoryer = new Ship(2);
+    cruiser = new Ship('cruiser');
+    destoryer = new Ship('destroyer');
     myBoard.placeShip([1, 1], destoryer, false);
     myBoard.placeShip([7, 6], cruiser, true);
   });
@@ -146,14 +146,14 @@ describe('Report if all ships down', () => {
 describe('Handle a player and opponent board separately', () => {
   it('Places separate ship instances on each board', () => {
     const player = new Gameboard();
-    const cruiser = new Ship(3);
+    const cruiser = new Ship('cruiser');
     player.placeShip([1, 1], cruiser, false);
     expect(player.board[1][1].ship).toBe(cruiser);
     expect(player.board[2][1].ship).toBe(cruiser);
     expect(player.board[3][1].ship).toBe(cruiser);
 
     const opponent = new Gameboard();
-    const destoryer = new Ship(2);
+    const destoryer = new Ship('destroyer');
     opponent.placeShip([1, 1], destoryer, false);
     expect(opponent.board[1][1].ship).toBe(destoryer);
     expect(opponent.board[2][1].ship).toBe(destoryer);
@@ -191,7 +191,7 @@ describe("Getting computer's attack", () => {
 
   it('Sends attack to an open coordinate with a ship', () => {
     // fill board except for one square with ship
-    gameboard.placeShip([0, 0], new Ship(5), false);
+    gameboard.placeShip([0, 0], new Ship('carrier'), false);
     for (let i = 0; i < 10; i += 1) {
       for (let j = 0; j < 10; j += 1) {
         gameboard.receiveAttack([i, j]);

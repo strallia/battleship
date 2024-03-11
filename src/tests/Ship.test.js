@@ -14,7 +14,7 @@ describe('getName of ship method', () => {
 
 describe('hit ship method', () => {
   it('Increments hit score by one each time when ship hit', () => {
-    const ship = new Ship();
+    const ship = new Ship('destroyer');
     ship.hit();
     ship.hit();
     expect(ship.getHits()).toBe(2);

@@ -15,17 +15,17 @@ const player = [
 
 // Only for building initial UI. Places ships on both player's boards.
 const placeShips = () => {
-  player[0].gameboard.placeShip([1, 2], new Ship(5), false);
-  player[0].gameboard.placeShip([6, 9], new Ship(4), false);
-  player[0].gameboard.placeShip([5, 3], new Ship(3), false);
-  player[0].gameboard.placeShip([0, 9], new Ship(3), false);
-  player[0].gameboard.placeShip([1, 7], new Ship(2), false);
+  player[0].gameboard.placeShip([1, 2], new Ship('carrier'), false);
+  player[0].gameboard.placeShip([6, 9], new Ship('battleship'), false);
+  player[0].gameboard.placeShip([5, 3], new Ship('cruiser'), false);
+  player[0].gameboard.placeShip([0, 9], new Ship('submarine'), false);
+  player[0].gameboard.placeShip([1, 7], new Ship('destroyer'), false);
 
-  player[1].gameboard.placeShip([1, 2], new Ship(5), false);
-  player[1].gameboard.placeShip([3, 9], new Ship(4), false);
-  player[1].gameboard.placeShip([6, 7], new Ship(3), false);
-  player[1].gameboard.placeShip([2, 5], new Ship(3), false);
-  player[1].gameboard.placeShip([8, 3], new Ship(2), false);
+  player[1].gameboard.placeShip([1, 2], new Ship('carrier'), false);
+  player[1].gameboard.placeShip([3, 9], new Ship('battleship'), false);
+  player[1].gameboard.placeShip([6, 7], new Ship('cruiser'), false);
+  player[1].gameboard.placeShip([2, 5], new Ship('submarine'), false);
+  player[1].gameboard.placeShip([8, 3], new Ship('destroyer'), false);
 };
 placeShips();
 const placeHits = () => {

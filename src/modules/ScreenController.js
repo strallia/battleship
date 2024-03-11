@@ -40,7 +40,6 @@ const updateShipsBoard = () => {
     });
   });
 };
-updateShipsBoard();
 
 const updateAttacksBoard = () => {
   // clear board
@@ -69,12 +68,10 @@ const updateAttacksBoard = () => {
     });
   });
 };
-updateAttacksBoard();
 
 const updateAnnouncement = (string) => {
   announcementDiv.textContent = string;
 };
-updateAnnouncement('Send your attack');
 
 const disableAttacksBoard = () => {
   attacksBoardDiv.classList.add('disable-pointer');
@@ -121,3 +118,8 @@ attacksBoardDiv.addEventListener('click', (e) => {
   if (!targetClasses.contains('hit') && !targetClasses.contains('miss'))
     handleAttacksBoardClick(e.target);
 });
+
+// setup initial render
+updateShipsBoard();
+updateAttacksBoard();
+updateAnnouncement('Send your attack');

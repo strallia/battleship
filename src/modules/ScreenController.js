@@ -1,5 +1,4 @@
 import {
-  delay,
   getAnnouncement,
   playComputerAttack,
   player,
@@ -80,6 +79,8 @@ const disableAttacksBoard = () => {
 const enableAttacksBoard = () => {
   attacksBoardDiv.classList.remove('disable-pointer');
 };
+
+const delay = (msec) => new Promise((res) => setTimeout(res, msec));
 
 const handleAttacksBoardClick = async (targetSquare) => {
   // disable clicks until round completes

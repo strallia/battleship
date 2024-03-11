@@ -55,7 +55,7 @@ const playPlayerAttack = (coord) => {
 };
 
 let computersAttackCoord = [null, null];
-const playComputerAttack = (coord) => {
+const playComputerAttack = () => {
   computersAttackCoord = player[0].gameboard.getComputerAttack();
   console.log('computer attacked me', player[0].gameboard.board);
 };
@@ -83,13 +83,10 @@ const getAnnouncement = function getStringForAnnouncement(attackedCoord) {
   return '';
 };
 
-const delay = (msec) => new Promise((res) => setTimeout(res, msec));
-
 export {
   player,
   playPlayerAttack,
   playComputerAttack,
   getAnnouncement,
   switchEnemy,
-  delay,
 };

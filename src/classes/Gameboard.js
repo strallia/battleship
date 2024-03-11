@@ -97,12 +97,15 @@ export default class Gameboard {
   }
 
   getComputerAttack() {
-    // get random, open position
+    // get random, open position that does not have attackStatus
     let coord;
     let isPositionOpen = false;
     while (!isPositionOpen) {
       coord = [null, null].map(() => Math.floor(Math.random() * 10));
-      isPositionOpen = !this.board[coord[0]][coord[1]];
+      const hasObj = this.board[coord[0]][coord[1]];
+      if (hasObj && Object.hasOwn(hasObj, 'attackStatus')) {
+        isPositionOpen = false;
+      } else isPositionOpen = true;
     }
 
     // send computer's attack

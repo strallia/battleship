@@ -174,8 +174,8 @@ describe("Getting computer's attack", () => {
     expect(spyMathRandom).toHaveBeenCalled();
   });
 
-  it('Sends attack to a coordinate that is open', () => {
-    // fill board except for one square
+  it('Sends attack to an open coordinate without ship', () => {
+    // fill board except for one square without ship
     for (let i = 0; i < 10; i += 1) {
       for (let j = 0; j < 10; j += 1) {
         gameboard.receiveAttack([i, j]);
@@ -183,9 +183,25 @@ describe("Getting computer's attack", () => {
     }
     gameboard.board[0][0] = null;
 
-    // expect computer to have attacked the only open square
+    // expect computer to attack the only open square
     coord = gameboard.getComputerAttack();
     expect(gameboard.board[0][0]).toBeTruthy();
+    gameboard.resetBoard();
+  });
+
+  it('Sends attack to an open coordinate with a ship', () => {
+    // fill board except for one square with ship
+    gameboard.placeShip([0, 0], new Ship(5), false);
+    for (let i = 0; i < 10; i += 1) {
+      for (let j = 0; j < 10; j += 1) {
+        gameboard.receiveAttack([i, j]);
+      }
+    }
+    delete gameboard.board[0][0].attackStatus;
+
+    // expect computer to attack the only open square
+    gameboard.getComputerAttack();
+    expect(Object.hasOwn(gameboard.board[0][0], 'attackStatus')).toBe(true);
   });
 
   it('Returns a coordinate within the board boundaries', () => {

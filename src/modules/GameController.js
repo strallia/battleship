@@ -61,24 +61,26 @@ const playComputerAttack = () => {
 };
 
 const getAnnouncement = function getStringForAnnouncement(attackedCoord) {
+  // find attacked square with it's data object
   let coord;
   if (arguments.length === 0) coord = computersAttackCoord;
   else coord = attackedCoord;
   const [y, x] = coord;
-  const enemySquare = getEnemy().gameboard.board[y][x];
+  const attackedSquare = getEnemy().gameboard.board[y][x];
 
   // return string for sinking enemy's ships
   const hasShip =
-    enemySquare === null ? false : Object.hasOwn(enemySquare, 'ship');
+    attackedSquare === null ? false : Object.hasOwn(attackedSquare, 'ship');
   if (hasShip) {
-    const { ship } = enemySquare;
+    const { ship } = attackedSquare;
     const attacker =
       coord[0] === computersAttackCoord[0] &&
       coord[1] === computersAttackCoord[1]
         ? 'Computer'
         : 'You';
     const receiver = attacker === 'Computer' ? 'your' : "Computer's";
-    if (ship.isSunk()) return `${attacker} sunk ${receiver} ship`;
+    const shipName = ship.getName();
+    if (ship.isSunk()) return `${attacker} sunk ${receiver} ${shipName}`;
   }
   return '';
 };

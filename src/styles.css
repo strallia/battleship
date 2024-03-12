@@ -6,7 +6,12 @@
 
 body {
   margin: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
 
+.game-screen {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
@@ -22,7 +27,8 @@ body {
   background-color: whitesmoke;
 }
 
-div.board {
+.board {
+  background-color: whitesmoke;
   display: grid;
   grid-template-columns: repeat(10, 40px);
   grid-template-rows: repeat(10, 40px);
@@ -52,4 +58,31 @@ button.miss::before {
   color: gray;
   font-weight: bolder;
   font-size: 24px;
+}
+
+.place-ships-screen {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
+}
+
+.place-ships.board > * {
+  outline: 1px solid darkgrey;
+}
+
+.draggable-ships-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.battleship,
+.cruiser,
+.submarine,
+.destroyer,
+.carrier {
+  width: 40px;
+  height: 40px;
+  background-color: rebeccapurple;
 }

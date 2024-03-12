@@ -73,11 +73,7 @@ const getAnnouncement = function getStringForAnnouncement(attackedCoord) {
     attackedSquare === null ? false : Object.hasOwn(attackedSquare, 'ship');
   if (hasShip) {
     const { ship } = attackedSquare;
-    const attacker =
-      coord[0] === computersAttackCoord[0] &&
-      coord[1] === computersAttackCoord[1]
-        ? 'Computer'
-        : 'You';
+    const attacker = arguments.length === 0 ? 'Computer' : 'You';
     const receiver = attacker === 'Computer' ? 'your' : "Computer's";
     const shipName = ship.getName();
     if (ship.isSunk()) return `${attacker} sunk ${receiver} ${shipName}`;
@@ -87,6 +83,7 @@ const getAnnouncement = function getStringForAnnouncement(attackedCoord) {
 
 export {
   player,
+  getEnemy,
   playPlayerAttack,
   playComputerAttack,
   getAnnouncement,

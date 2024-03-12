@@ -1,7 +1,7 @@
 import {
   getAnnouncement,
   playComputerAttack,
-  player,
+  players,
   playPlayerAttack,
   switchEnemy,
 } from './GameController';
@@ -15,7 +15,7 @@ const updateShipsBoard = () => {
   shipsBoardDiv.textContent = '';
 
   // load each square
-  const playerBoard = player[0].gameboard.board;
+  const playerBoard = players[0].gameboard.board;
   playerBoard.forEach((row, rowIndex) => {
     row.forEach((column, columnIndex) => {
       const square = playerBoard[rowIndex][columnIndex];
@@ -45,7 +45,7 @@ const updateAttacksBoard = () => {
   attacksBoardDiv.textContent = '';
 
   // load each square
-  const computerBoard = player[1].gameboard.board;
+  const computerBoard = players[1].gameboard.board;
   computerBoard.forEach((row, rowIndex) => {
     row.forEach((column, columnIndex) => {
       const square = computerBoard[rowIndex][columnIndex];

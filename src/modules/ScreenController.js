@@ -122,7 +122,6 @@ const handleAttacksBoardClick = async (targetSquare) => {
 
   // announce player's turn to attack
   updateAnnouncement('Send your attack');
-  switchEnemy();
 
   enableAttacksBoard();
 };

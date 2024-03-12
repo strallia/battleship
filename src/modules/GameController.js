@@ -60,12 +60,11 @@ const playComputerAttack = () => {
   console.log('computer attacked me', player[0].gameboard.board);
 };
 
-const getAnnouncement = function getStringForAnnouncement(attackedCoord) {
+const getAnnouncement = function getStringForAnnouncement(
+  attackedCoord = computersAttackCoord,
+) {
   // find attacked square with it's data object
-  let coord;
-  if (arguments.length === 0) coord = computersAttackCoord;
-  else coord = attackedCoord;
-  const [y, x] = coord;
+  const [y, x] = attackedCoord;
   const attackedSquare = getEnemy().gameboard.board[y][x];
 
   // return string for sinking enemy's ships

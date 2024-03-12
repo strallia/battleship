@@ -92,9 +92,12 @@ const handleAttacksBoardClick = async (targetSquare) => {
   updateAttacksBoard();
 
   // announce if player sunk computer's ship
-  updateAnnouncement(getAnnouncement([y, x]));
+  const firstAnnouncement = getAnnouncement([y, x]);
+  if (firstAnnouncement) {
+    updateAnnouncement(firstAnnouncement);
+    await delay(1000);
+  }
   switchEnemy();
-  await delay(1000);
 
   // announce waiting for computer's attack
   updateAnnouncement('Waiting for Computer...');
@@ -105,8 +108,12 @@ const handleAttacksBoardClick = async (targetSquare) => {
   updateShipsBoard();
 
   // announce if computer sunk player's ship
-  updateAnnouncement(getAnnouncement());
-  await delay(1000);
+  const secondAnnouncement = getAnnouncement();
+  if (secondAnnouncement) {
+    updateAnnouncement(secondAnnouncement);
+    await delay(1000);
+  }
+  switchEnemy();
 
   // announce player's turn to attack
   updateAnnouncement('Send your attack');

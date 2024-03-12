@@ -83,7 +83,6 @@ const enableAttacksBoard = () => {
 const delay = (msec) => new Promise((res) => setTimeout(res, msec));
 
 const handleAttacksBoardClick = async (targetSquare) => {
-  // disable clicks until round completes
   disableAttacksBoard();
 
   // run player's attack
@@ -91,13 +90,16 @@ const handleAttacksBoardClick = async (targetSquare) => {
   playPlayerAttack([y, x]);
   updateAttacksBoard();
 
-  // announce if player sunk computer's ship
+  // announce if player sunk computer's ship or wins
   const firstAnnouncement = getAnnouncement([y, x]);
   if (firstAnnouncement) {
     updateAnnouncement(firstAnnouncement);
     await delay(1000);
   }
   switchEnemy();
+
+  // end game if player is winner
+  if (players[1].gameboard.allShipsDown()) return;
 
   // announce waiting for computer's attack
   updateAnnouncement('Waiting for Computer...');
@@ -107,13 +109,16 @@ const handleAttacksBoardClick = async (targetSquare) => {
   playComputerAttack();
   updateShipsBoard();
 
-  // announce if computer sunk player's ship
+  // announce if computer sunk player's ship or wins
   const secondAnnouncement = getAnnouncement();
   if (secondAnnouncement) {
     updateAnnouncement(secondAnnouncement);
     await delay(1000);
   }
   switchEnemy();
+
+  // end game if computer is winner
+  if (players[0].gameboard.allShipsDown()) return;
 
   // announce player's turn to attack
   updateAnnouncement('Send your attack');

@@ -86,3 +86,7 @@ button.miss::before {
   height: 40px;
   background-color: rebeccapurple;
 }
+
+.ship-hover {
+  background-color: blue;
+}

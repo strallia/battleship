@@ -8,16 +8,28 @@ const addCellsToBoard = () => {
   for (let i = 0; i < 100; i += 1) {
     const cell = document.createElement('div');
 
+    // show move-cursor when ship hovers over potential drop target
     cell.addEventListener('dragover', (e) => {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
     });
 
+    // place ship into drop target when dropped
     cell.addEventListener('drop', (e) => {
-      // move the ship to dropped position
       const shipName = e.dataTransfer.getData('application/my-app');
       const ship = placeShipsScreen.querySelector(`.${shipName}`);
       e.target.appendChild(ship);
+      e.target.classList.remove('ship-hover');
+    });
+
+    // highlight potential drop target when the ship enters it
+    cell.addEventListener('dragenter', (e) => {
+      e.target.classList.add('ship-hover');
+    });
+
+    // reset background of potential drop target when the ship leaves it
+    cell.addEventListener('dragleave', (e) => {
+      e.target.classList.remove('ship-hover');
     });
 
     placeShipsBoardDiv.appendChild(cell);

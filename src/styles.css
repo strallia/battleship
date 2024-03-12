@@ -88,5 +88,9 @@ button.miss::before {
 }
 
 .ship-hover {
-  background-color: blue;
+  background-color: gray;
+}
+
+.transparent {
+  opacity: 0.5;
 }

@@ -33,9 +33,12 @@ const placeHits = () => {
   player[1].gameboard.receiveAttack([1, 2]);
   player[1].gameboard.receiveAttack([8, 3]);
 
-  player[0].gameboard.receiveAttack([0, 0]);
-  player[0].gameboard.receiveAttack([3, 8]);
-  player[0].gameboard.receiveAttack([9, 9]);
+  for (let i = 0; i < 10; i += 1) {
+    for (let j = 0; j < 10; j += 1) {
+      if (i === 2 && j === 7) continue;
+      player[0].gameboard.receiveAttack([i, j]);
+    }
+  }
 };
 placeHits();
 console.log('player', player[0].gameboard.board);
@@ -67,16 +70,24 @@ const getAnnouncement = function getStringForAnnouncement(
   const [y, x] = attackedCoord;
   const attackedSquare = getEnemy().gameboard.board[y][x];
 
-  // return string for sinking enemy's ships
+  // get nouns for string interpolation
+  const attacker = arguments.length === 0 ? 'Computer' : 'You';
+  const receiver = attacker === 'Computer' ? 'your' : "Computer's";
+
+  // if attack sunk enemy's last ship
   const hasShip =
     attackedSquare === null ? false : Object.hasOwn(attackedSquare, 'ship');
+  if (hasShip && getEnemy().gameboard.allShipsDown()) {
+    return `${attacker} win${attacker === 'Computer' ? "'s" : ''}!`;
+  }
+
+  // if attack sunk enemy's ship
   if (hasShip) {
     const { ship } = attackedSquare;
-    const attacker = arguments.length === 0 ? 'Computer' : 'You';
-    const receiver = attacker === 'Computer' ? 'your' : "Computer's";
     const shipName = ship.getName();
     if (ship.isSunk()) return `${attacker} sunk ${receiver} ${shipName}`;
   }
+
   return '';
 };
 

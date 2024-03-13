@@ -75,6 +75,7 @@ button.miss::before {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 200px;
 }
 
 .battleship,
@@ -85,6 +86,50 @@ button.miss::before {
   width: 40px;
   height: 40px;
   background-color: rebeccapurple;
+}
+
+.battleship,
+.cruiser,
+.submarine,
+.destroyer,
+.carrier {
+  &::before {
+    color: white;
+  }
+}
+
+.carrier {
+  width: 200px;
+  &::before {
+    content: 'Carrier';
+  }
+}
+
+.battleship {
+  width: 160px;
+  &::before {
+    content: 'Battleship';
+  }
+}
+
+.submarine,
+.cruiser {
+  width: 120px;
+}
+
+.submarine::before {
+  content: 'Submarine';
+}
+
+.cruiser::before {
+  content: 'Cruiser';
+}
+
+.destroyer {
+  width: 80px;
+  &::before {
+    content: 'Destroyer';
+  }
 }
 
 .ship-hover {

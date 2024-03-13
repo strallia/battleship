@@ -16,7 +16,7 @@ const addCellsToBoard = () => {
 
     // move ship into dropped target
     cell.addEventListener('drop', (e) => {
-      const shipName = e.dataTransfer.getData('application/my-app');
+      const shipName = e.dataTransfer.getData('text');
       const ship = placeShipsScreen.querySelector(`.${shipName}`);
       e.target.appendChild(ship);
       e.target.classList.remove('ship-hover');
@@ -41,7 +41,10 @@ const addShipsDragEventHandlers = () => {
   draggableShips.forEach((ship) => {
     ship.addEventListener('dragstart', (e) => {
       // store ship name
-      e.dataTransfer.setData('application/my-app', e.target.classList);
+      e.dataTransfer.setData('text/plain', e.target.classList);
+
+      // position cursor grabbing ship
+      e.dataTransfer.setDragImage(e.target, 20, 20);
 
       // make ship transparent when actively draggging
       e.target.classList.add('transparent');

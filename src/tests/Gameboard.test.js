@@ -216,3 +216,29 @@ describe("Getting computer's attack", () => {
     expect(x).toBeLessThanOrEqual(9);
   });
 });
+
+describe('isValidPosition method', () => {
+  let board;
+  beforeEach(() => {
+    board = new Gameboard();
+  });
+
+  it('Returns false for a ship trying to be placed off the board', () => {
+    expect(board.placeShip([0, 9], new Ship('cruiser'))).toBe(false);
+  });
+
+  it('Returns false for ship trying to be placed ontop another', () => {
+    board.placeShip([0, 0], new Ship('cruiser'));
+    expect(board.placeShip([0, 0], new Ship('destroyer'))).toBe(false);
+  });
+
+  it('Returns true in any other valid cases', () => {
+    expect(board.placeShip([0, 0], new Ship('cruiser'))).toBe(true);
+  });
+
+  it('Calls the Ship getLength method', () => {
+    const spy = jest.spyOn(Ship.prototype, 'getLength');
+    board.placeShip([0, 0], new Ship('cruiser'));
+    expect(spy).toHaveBeenCalled();
+  });
+});

@@ -2,14 +2,16 @@ import Ship from '../classes/Ship';
 import Gameboard from '../classes/Gameboard';
 
 describe('Check for single ship placement', () => {
-  const battleship = new Ship('battleship');
-  const myBoard = new Gameboard();
-  afterEach(() => {
-    myBoard.resetBoard();
+  let battleship;
+  let myBoard;
+  beforeEach(() => {
+    battleship = new Ship('battleship');
+    myBoard = new Gameboard();
   });
 
   it('Places battleship on board vertically', () => {
     const clickedCoord = [1, 2]; // [y(row), x(column)]
+    battleship.toggleDirection();
     myBoard.placeShip(clickedCoord, battleship);
     expect(myBoard.board[1][2]).toBeTruthy();
     expect(myBoard.board[2][2]).toBeTruthy();
@@ -19,7 +21,7 @@ describe('Check for single ship placement', () => {
 
   it('Places battleship on board horizontally', () => {
     const clickedCoord = [1, 2];
-    myBoard.placeShip(clickedCoord, battleship, true);
+    myBoard.placeShip(clickedCoord, battleship);
     expect(myBoard.board[1][2]).toBeTruthy();
     expect(myBoard.board[1][3]).toBeTruthy();
     expect(myBoard.board[1][4]).toBeTruthy();
@@ -28,12 +30,13 @@ describe('Check for single ship placement', () => {
 
   it('Does not allow placement of horizontal ship past right side of board', () => {
     const clickedCoord = [3, 9];
-    expect(myBoard.placeShip(clickedCoord, battleship, true)).toBe(false);
+    expect(myBoard.placeShip(clickedCoord, battleship)).toBe(false);
   });
 
   it('Does not allow placement of vertical ship past bottom side of board', () => {
     const clickedCoord = [9, 2];
-    expect(myBoard.placeShip(clickedCoord, battleship, false)).toBe(false);
+    battleship.toggleDirection();
+    expect(myBoard.placeShip(clickedCoord, battleship)).toBe(false);
   });
 });
 
@@ -63,7 +66,7 @@ describe('Handling attacks', () => {
   let cruiser;
   beforeEach(() => {
     cruiser = new Ship('cruiser');
-    myBoard.placeShip([2, 4], cruiser, false);
+    myBoard.placeShip([2, 4], cruiser);
   });
   afterEach(() => {
     myBoard.resetBoard();
@@ -76,7 +79,7 @@ describe('Handling attacks', () => {
 
   it("Ship's hit score returns 2 when hit twice", () => {
     myBoard.receiveAttack([2, 4]);
-    myBoard.receiveAttack([3, 4]);
+    myBoard.receiveAttack([2, 5]);
     expect(cruiser.getHits()).toBe(2);
   });
 
@@ -101,8 +104,8 @@ describe('Handling attacks', () => {
 
   it('Sunken ship returns true from isSunk', () => {
     myBoard.receiveAttack([2, 4]);
-    myBoard.receiveAttack([3, 4]);
-    myBoard.receiveAttack([4, 4]);
+    myBoard.receiveAttack([2, 5]);
+    myBoard.receiveAttack([2, 6]);
     expect(cruiser.isSunk()).toBe(true);
   });
 
@@ -116,11 +119,12 @@ describe('Handling attacks', () => {
 describe('Report if all ships down', () => {
   const myBoard = new Gameboard();
   let cruiser;
-  let destoryer;
+  let destroyer;
   beforeEach(() => {
     cruiser = new Ship('cruiser');
-    destoryer = new Ship('destroyer');
-    myBoard.placeShip([1, 1], destoryer, false);
+    destroyer = new Ship('destroyer');
+    destroyer.toggleDirection();
+    myBoard.placeShip([1, 1], destroyer, false);
     myBoard.placeShip([7, 6], cruiser, true);
   });
   afterEach(() => {
@@ -147,17 +151,17 @@ describe('Handle a player and opponent board separately', () => {
   it('Places separate ship instances on each board', () => {
     const player = new Gameboard();
     const cruiser = new Ship('cruiser');
-    player.placeShip([1, 1], cruiser, false);
+    player.placeShip([1, 1], cruiser);
     expect(player.board[1][1].ship).toBe(cruiser);
-    expect(player.board[2][1].ship).toBe(cruiser);
-    expect(player.board[3][1].ship).toBe(cruiser);
+    expect(player.board[1][2].ship).toBe(cruiser);
+    expect(player.board[1][3].ship).toBe(cruiser);
 
     const opponent = new Gameboard();
     const destoryer = new Ship('destroyer');
-    opponent.placeShip([1, 1], destoryer, false);
+    opponent.placeShip([1, 1], destoryer);
     expect(opponent.board[1][1].ship).toBe(destoryer);
-    expect(opponent.board[2][1].ship).toBe(destoryer);
-    expect(opponent.board[3][1]).toBe(null);
+    expect(opponent.board[1][2].ship).toBe(destoryer);
+    expect(opponent.board[1][3]).toBe(null);
   });
 });
 

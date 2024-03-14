@@ -34,9 +34,10 @@ export default class Gameboard {
     this.ships = [];
   }
 
-  placeShip(clickedCoord, shipInstance, isHorizontal) {
+  placeShip(clickedCoord, shipInstance) {
     const [y, x] = clickedCoord;
     const length = shipInstance.getLength();
+    const { isHorizontal } = shipInstance;
 
     // check if ship is off the board
     const sternPositon = (isHorizontal ? x : y) + (length - 1);

@@ -5,6 +5,8 @@ export default class Ship {
 
   #name;
 
+  isHorizontal = true;
+
   constructor(name) {
     this.#name = name;
     this.#hits = 0;
@@ -38,5 +40,10 @@ export default class Ship {
   isSunk() {
     if (this.#length === this.#hits) return true;
     return false;
+  }
+
+  toggleDirection() {
+    if (this.isHorizontal) this.isHorizontal = false;
+    else this.isHorizontal = true;
   }
 }

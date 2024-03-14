@@ -46,3 +46,23 @@ describe('isSunk method', () => {
     expect(ship.isSunk()).toBe(true);
   });
 });
+
+describe('toggleDirection method', () => {
+  it('Default direction is horizontal', () => {
+    const ship = new Ship('cruiser');
+    expect(ship.isHorizontal).toBe(true);
+  });
+
+  it('Toggling direction once makes ship vertical', () => {
+    const ship = new Ship('cruiser');
+    ship.toggleDirection();
+    expect(ship.isHorizontal).toBe(false);
+  });
+
+  it('Toggling direction twice makes ship horizontal', () => {
+    const ship = new Ship('cruiser');
+    ship.toggleDirection();
+    ship.toggleDirection();
+    expect(ship.isHorizontal).toBe(true);
+  });
+});

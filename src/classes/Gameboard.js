@@ -39,11 +39,34 @@ export default class Gameboard {
     const length = shipInstance.getLength();
     const { isHorizontal } = shipInstance;
 
-    // check if ship is off the board
+    // if valid spot, place ship on board horizontally or vertically
+    if (this.isValidPosition([y, x], shipInstance)) {
+      let yCount = 0;
+      let xCount = 0;
+      this.ships.push(shipInstance);
+      while (
+        (yCount === 0 && xCount < length) ||
+        (yCount < length && xCount === 0)
+      ) {
+        this.board[y + yCount][x + xCount] = { ship: shipInstance };
+        if (isHorizontal) xCount += 1;
+        else yCount += 1;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  isValidPosition(clickedCoord, shipInstance) {
+    const [y, x] = clickedCoord;
+    const length = shipInstance.getLength();
+    const { isHorizontal } = shipInstance;
+
+    // do not place ship off the board
     const sternPositon = (isHorizontal ? x : y) + (length - 1);
     if (sternPositon > 9) return false;
 
-    // check if ship is being placed ontop another
+    // do not overlap ships
     const proposedShipCoordinates = Gameboard.getShipCoordinates(
       clickedCoord,
       shipInstance,
@@ -56,18 +79,6 @@ export default class Gameboard {
       return false;
     }
 
-    // place ship on board horizontally or vertically
-    let yCount = 0;
-    let xCount = 0;
-    this.ships.push(shipInstance);
-    while (
-      (yCount === 0 && xCount < length) ||
-      (yCount < length && xCount === 0)
-    ) {
-      this.board[y + yCount][x + xCount] = { ship: shipInstance };
-      if (isHorizontal) xCount += 1;
-      else yCount += 1;
-    }
     return true;
   }
 

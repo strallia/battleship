@@ -65,14 +65,16 @@ placeShipsBoardDiv.addEventListener('dragover', (e) => {
 });
 placeShipsBoardDiv.addEventListener('drop', (e) => {
   const shipName = e.dataTransfer.getData('text');
-
-  // add ship to board instances
   const { y, x } = e.target.dataset;
-  placeShipBoardInstance.placeShip([+y, +x], new Ship(shipName));
+  const shipInstance = new Ship(shipName);
 
-  // remove source of dragged ship so player can't place duplicates
-  const shipSource = draggableShipsContainer.querySelector(`#${shipName}`);
-  draggableShipsContainer.removeChild(shipSource);
+  if (placeShipBoardInstance.isValidPosition([+y, +x], shipInstance)) {
+    placeShipBoardInstance.placeShip([+y, +x], shipInstance);
+
+    // remove source of dragged ship so player can't place duplicates
+    const shipSource = draggableShipsContainer.querySelector(`#${shipName}`);
+    draggableShipsContainer.removeChild(shipSource);
+  }
 
   // remove hover effect
   e.target.classList.remove('ship-hover');

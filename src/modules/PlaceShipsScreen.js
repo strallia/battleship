@@ -2,6 +2,9 @@ import PlaceShipsBoard from '../classes/PlaceShipsBoard';
 import Ship from '../classes/Ship';
 
 const placeShipsScreen = document.querySelector('.place-ships-screen');
+const draggableShipsContainer = placeShipsScreen.querySelector(
+  '.draggable-ships-container',
+);
 const placeShipsBoardDiv = placeShipsScreen.querySelector('.place-ships.board');
 const draggableShips = placeShipsScreen.querySelectorAll('[draggable="true"]');
 const placeShipBoardInstance = new PlaceShipsBoard();
@@ -66,6 +69,10 @@ placeShipsBoardDiv.addEventListener('drop', (e) => {
   // add ship to board instances
   const { y, x } = e.target.dataset;
   placeShipBoardInstance.placeShip([+y, +x], new Ship(shipName));
+
+  // remove source of dragged ship so player can't place duplicates
+  const shipSource = draggableShipsContainer.querySelector(`#${shipName}`);
+  draggableShipsContainer.removeChild(shipSource);
 
   // remove hover effect
   e.target.classList.remove('ship-hover');

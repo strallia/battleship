@@ -13,11 +13,16 @@
     </div>
     <div class="place-ships-screen">
       <div class="draggable-ships-container">
-        <div class="carrier" draggable="true"></div>
-        <div class="battleship" draggable="true"></div>
-        <div class="cruiser" draggable="true"></div>
-        <div class="submarine" draggable="true"></div>
-        <div class="destroyer" draggable="true"></div>
+        <div
+          id="carrier"
+          class="draggable-ship"
+          draggable="true"
+          data-units="5"
+        ></div>
+        <div id="battleship" class="draggable-ship" draggable="true"></div>
+        <div id="cruiser" class="draggable-ship" draggable="true"></div>
+        <div id="submarine" class="draggable-ship" draggable="true"></div>
+        <div id="destroyer" class="draggable-ship" draggable="true"></div>
       </div>
       <div class="place-ships board"></div>
     </div>

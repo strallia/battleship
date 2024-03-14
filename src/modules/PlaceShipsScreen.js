@@ -1,47 +1,44 @@
+import PlaceShipsBoard from '../classes/PlaceShipsBoard';
+import Ship from '../classes/Ship';
+
 const placeShipsScreen = document.querySelector('.place-ships-screen');
 const placeShipsBoardDiv = placeShipsScreen.querySelector('.place-ships.board');
-const draggableShips = placeShipsScreen.querySelectorAll(
-  '.draggable-ships-container > *',
-);
+const draggableShips = placeShipsScreen.querySelectorAll('[draggable="true"]');
+const placeShipBoardInstance = new PlaceShipsBoard();
 
-const addCellsToBoard = () => {
-  for (let i = 0; i < 100; i += 1) {
-    const cell = document.createElement('div');
+const updateBoard = () => {
+  placeShipsBoardDiv.textContent = '';
 
-    // show move-cursor when ship hovers over potential drop target
-    cell.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
+  // load each cell
+  const { board } = placeShipBoardInstance;
+  board.forEach((row, rowIndex) => {
+    row.forEach((column, columnIndex) => {
+      const cell = board[rowIndex][columnIndex];
+      const button = document.createElement('button');
+
+      // render previously-placed ships as draggable element
+      const hasShip = !!cell;
+      if (hasShip) {
+        const { ship } = cell;
+        button.id = ship.getName();
+        button.classList.add('ship');
+        button.draggable = true;
+      }
+
+      // add data-coordinate attribute
+      button.dataset.y = rowIndex;
+      button.dataset.x = columnIndex;
+
+      placeShipsBoardDiv.appendChild(button);
     });
-
-    // move ship into dropped target
-    cell.addEventListener('drop', (e) => {
-      const shipName = e.dataTransfer.getData('text');
-      const ship = placeShipsScreen.querySelector(`.${shipName}`);
-      e.target.appendChild(ship);
-      e.target.classList.remove('ship-hover');
-    });
-
-    // highlight potential drop target when the ship enters it
-    cell.addEventListener('dragenter', (e) => {
-      e.target.classList.add('ship-hover');
-    });
-
-    // reset background of potential drop target when the ship leaves it
-    cell.addEventListener('dragleave', (e) => {
-      e.target.classList.remove('ship-hover');
-    });
-
-    placeShipsBoardDiv.appendChild(cell);
-  }
+  });
 };
-addCellsToBoard();
 
 const addShipsDragEventHandlers = () => {
   draggableShips.forEach((ship) => {
     ship.addEventListener('dragstart', (e) => {
       // store ship name
-      e.dataTransfer.setData('text/plain', e.target.classList);
+      e.dataTransfer.setData('text/plain', e.target.id);
 
       // position cursor grabbing ship
       e.dataTransfer.setDragImage(e.target, 20, 20);
@@ -56,4 +53,34 @@ const addShipsDragEventHandlers = () => {
     });
   });
 };
+
+// add drag and drop event handlers on board
+placeShipsBoardDiv.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  // show move-cursor when ship hovers over potential drop target
+  e.dataTransfer.dropEffect = 'move';
+});
+placeShipsBoardDiv.addEventListener('drop', (e) => {
+  const shipName = e.dataTransfer.getData('text');
+
+  // add ship to board instances
+  const { y, x } = e.target.dataset;
+  placeShipBoardInstance.placeShip([+y, +x], new Ship(shipName));
+
+  // remove hover effect
+  e.target.classList.remove('ship-hover');
+
+  updateBoard();
+});
+placeShipsBoardDiv.addEventListener('dragenter', (e) => {
+  // highlight potential drop target when the ship enters it
+  e.target.classList.add('ship-hover');
+});
+placeShipsBoardDiv.addEventListener('dragleave', (e) => {
+  // reset background of potential drop target when the ship leaves it
+  e.target.classList.remove('ship-hover');
+});
+
+// setup initial render
+updateBoard();
 addShipsDragEventHandlers();

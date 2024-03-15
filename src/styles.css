@@ -90,6 +90,20 @@ button.miss::before {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+
+  #carrier {
+    width: 200px;
+  }
+  #battleship {
+    width: 160px;
+  }
+  #submarine,
+  #cruiser {
+    width: 120px;
+  }
+  #destroyer {
+    width: 80px;
+  }
 }
 
 #battleship,
@@ -100,36 +114,19 @@ button.miss::before {
   width: 40px;
   height: 40px;
   background-color: rebeccapurple;
-}
 
-#battleship,
-#cruiser,
-#submarine,
-#destroyer,
-#carrier {
   &::before {
     color: white;
     font-size: 10px;
   }
 }
 
-#carrier {
-  /* width: 200px; */
-  &::before {
-    content: 'Carrier';
-  }
+#carrier::before {
+  content: 'Carrier';
 }
 
-#battleship {
-  /* width: 160px; */
-  &::before {
-    content: 'Battleship';
-  }
-}
-
-#submarine,
-#cruiser {
-  /* width: 120px; */
+#battleship::before {
+  content: 'Battleship';
 }
 
 #submarine::before {
@@ -140,11 +137,8 @@ button.miss::before {
   content: 'Cruiser';
 }
 
-#destroyer {
-  /* width: 80px; */
-  &::before {
-    content: 'Destroyer';
-  }
+#destroyer::before {
+  content: 'Destroyer';
 }
 
 .ship-hover {

@@ -6,7 +6,8 @@ const draggableShipsContainer = placeShipsScreen.querySelector(
   '.draggable-ships-container',
 );
 const placeShipsBoardDiv = placeShipsScreen.querySelector('.place-ships.board');
-const draggableShips = placeShipsScreen.querySelectorAll('[draggable="true"]');
+const originalDraggableShips =
+  placeShipsScreen.querySelectorAll('[draggable="true"]');
 const placeShipBoardInstance = new PlaceShipsBoard();
 
 const updateBoard = () => {
@@ -38,7 +39,7 @@ const updateBoard = () => {
 };
 
 const addShipsDragEventHandlers = () => {
-  draggableShips.forEach((ship) => {
+  originalDraggableShips.forEach((ship) => {
     ship.addEventListener('dragstart', (e) => {
       // store ship name
       e.dataTransfer.setData('text/plain', e.target.id);
@@ -63,7 +64,8 @@ placeShipsBoardDiv.addEventListener('dragover', (e) => {
   // show move-cursor when ship hovers over potential drop target
   e.dataTransfer.dropEffect = 'move';
 });
-placeShipsBoardDiv.addEventListener('drop', (e) => {
+
+const handleDropEvent = (e) => {
   const shipName = e.dataTransfer.getData('text');
   const { y, x } = e.target.dataset;
   const shipInstance = new Ship(shipName);
@@ -71,16 +73,22 @@ placeShipsBoardDiv.addEventListener('drop', (e) => {
   if (placeShipBoardInstance.isValidPosition([+y, +x], shipInstance)) {
     placeShipBoardInstance.placeShip([+y, +x], shipInstance);
 
-    // remove source of dragged ship so player can't place duplicates
-    const shipSource = draggableShipsContainer.querySelector(`#${shipName}`);
-    draggableShipsContainer.removeChild(shipSource);
+    // if original draggable ship is in draggable-ships-container, remove it
+    const originalShipNode = Array.from(originalDraggableShips).find(
+      (node) => node.id === shipName,
+    );
+    if (originalShipNode) draggableShipsContainer.removeChild(originalShipNode);
   }
 
   // remove hover effect
   e.target.classList.remove('ship-hover');
 
   updateBoard();
+};
+placeShipsBoardDiv.addEventListener('drop', (e) => {
+  handleDropEvent(e);
 });
+
 placeShipsBoardDiv.addEventListener('dragenter', (e) => {
   // highlight potential drop target when the ship enters it
   e.target.classList.add('ship-hover');

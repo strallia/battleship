@@ -90,20 +90,6 @@ button.miss::before {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-
-  #carrier {
-    width: 200px;
-  }
-  #battleship {
-    width: 160px;
-  }
-  #submarine,
-  #cruiser {
-    width: 120px;
-  }
-  #destroyer {
-    width: 80px;
-  }
 }
 
 #battleship,

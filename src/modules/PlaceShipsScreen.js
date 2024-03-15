@@ -2,12 +2,15 @@ import PlaceShipsBoard from '../classes/PlaceShipsBoard';
 import Ship from '../classes/Ship';
 
 const placeShipsScreen = document.querySelector('.place-ships-screen');
+const toggleDirectionButton =
+  placeShipsScreen.querySelector('.toggle-direction');
 const draggableShipsContainer = placeShipsScreen.querySelector(
   '.draggable-ships-container',
 );
-const placeShipsBoardDiv = placeShipsScreen.querySelector('.place-ships.board');
 const originalDraggableShips =
   placeShipsScreen.querySelectorAll('[draggable="true"]');
+const placeShipsBoardDiv = placeShipsScreen.querySelector('.place-ships.board');
+
 const placeShipBoardInstance = new PlaceShipsBoard();
 
 const updateBoard = () => {
@@ -96,6 +99,14 @@ placeShipsBoardDiv.addEventListener('dragenter', (e) => {
 placeShipsBoardDiv.addEventListener('dragleave', (e) => {
   // reset background of potential drop target when the ship leaves it
   e.target.classList.remove('ship-hover');
+});
+
+toggleDirectionButton.addEventListener('click', () => {
+  // swap width and height of each ship
+  originalDraggableShips.forEach((node) => {
+    const { width, height } = node.style;
+    node.setAttribute('style', `width: ${height}; height: ${width};`);
+  });
 });
 
 // setup initial render

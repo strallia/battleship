@@ -11,7 +11,7 @@ describe('Check for single ship placement', () => {
 
   it('Places battleship on board vertically', () => {
     const clickedCoord = [1, 2]; // [y(row), x(column)]
-    battleship.toggleDirection();
+    battleship.setDirection('vertical');
     myBoard.placeShip(clickedCoord, battleship);
     expect(myBoard.board[1][2]).toBeTruthy();
     expect(myBoard.board[2][2]).toBeTruthy();
@@ -35,7 +35,7 @@ describe('Check for single ship placement', () => {
 
   it('Does not allow placement of vertical ship past bottom side of board', () => {
     const clickedCoord = [9, 2];
-    battleship.toggleDirection();
+    battleship.setDirection('vertical');
     expect(myBoard.placeShip(clickedCoord, battleship)).toBe(false);
   });
 });
@@ -123,7 +123,7 @@ describe('Report if all ships down', () => {
   beforeEach(() => {
     cruiser = new Ship('cruiser');
     destroyer = new Ship('destroyer');
-    destroyer.toggleDirection();
+    destroyer.setDirection('vertical');
     myBoard.placeShip([1, 1], destroyer, false);
     myBoard.placeShip([7, 6], cruiser, true);
   });

@@ -31,7 +31,7 @@ describe('moveShip method', () => {
   });
 
   it('Moves a vertical ship to a different position', () => {
-    destroyer.toggleDirection();
+    destroyer.setDirection('vertical');
     placeShipsBoard.placeShip([0, 0], destroyer);
     placeShipsBoard.moveShip([0, 0], [0, 9]);
 

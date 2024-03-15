@@ -5,12 +5,11 @@ export default class Ship {
 
   #name;
 
-  isHorizontal = true;
-
   constructor(name) {
     this.#name = name;
     this.#hits = 0;
     this.#setLength();
+    this.direction = 'horizontal';
   }
 
   #setLength() {
@@ -42,8 +41,7 @@ export default class Ship {
     return false;
   }
 
-  toggleDirection() {
-    if (this.isHorizontal) this.isHorizontal = false;
-    else this.isHorizontal = true;
+  setDirection(directionString) {
+    this.direction = directionString;
   }
 }

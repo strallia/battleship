@@ -44,8 +44,12 @@ const updateBoard = () => {
 const addShipsDragEventHandlers = () => {
   originalDraggableShips.forEach((ship) => {
     ship.addEventListener('dragstart', (e) => {
-      // store ship name
-      e.dataTransfer.setData('text/plain', e.target.id);
+      // store data in dataTransfer: ship name and direction attribute
+      const obj = {
+        shipName: e.target.id,
+        curDirection: e.target.dataset.direction,
+      };
+      e.dataTransfer.setData('text/plain', JSON.stringify(obj));
 
       // position cursor grabbing ship
       e.dataTransfer.setDragImage(e.target, 20, 20);
@@ -69,11 +73,13 @@ placeShipsBoardDiv.addEventListener('dragover', (e) => {
 });
 
 const handleDropEvent = (e) => {
-  const shipName = e.dataTransfer.getData('text');
+  const { shipName, curDirection } = JSON.parse(e.dataTransfer.getData('text'));
   const { y, x } = e.target.dataset;
   const shipInstance = new Ship(shipName);
 
   if (placeShipBoardInstance.isValidPosition([+y, +x], shipInstance)) {
+    // FIX: DOM should not write/set data
+    shipInstance.setDirection(curDirection);
     placeShipBoardInstance.placeShip([+y, +x], shipInstance);
 
     // if original draggable ship is in draggable-ships-container, remove it
@@ -102,10 +108,15 @@ placeShipsBoardDiv.addEventListener('dragleave', (e) => {
 });
 
 toggleDirectionButton.addEventListener('click', () => {
-  // swap width and height of each ship
   originalDraggableShips.forEach((node) => {
+    // DOM: rotate ship
     const { width, height } = node.style;
     node.setAttribute('style', `width: ${height}; height: ${width};`);
+
+    // DOM: update data-direction attribute
+    const { direction } = node.dataset;
+    const newDirection = direction === 'horizontal' ? 'vertical' : 'horizontal';
+    node.setAttribute('data-direction', newDirection);
   });
 });
 

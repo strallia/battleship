@@ -54,7 +54,10 @@ const handleToggleDirectionClick = () => {
   });
 };
 
+let curDraggedShipLength;
 const handleDragStart = (e) => {
+  curDraggedShipLength = +e.target.dataset.length;
+
   // store data in dataTransfer: ship name and direction attribute
   const obj = {
     shipName: e.target.id,
@@ -104,14 +107,29 @@ const handleDrop = (e) => {
   updateBoard();
 };
 
+const renderHoverEffect = (event, isActive) => {
+  const nodes = [event.target];
+  let counter = 0;
+  while (counter < curDraggedShipLength - 1) {
+    const prevNode = nodes.at(-1);
+    nodes.push(prevNode.nextSibling);
+    counter += 1;
+  }
+  nodes.forEach((node) => {
+    if (isActive) node.classList.add('ship-hover');
+    else node.classList.remove('ship-hover');
+  });
+  console.log(nodes);
+};
+
 const handleDragEnter = (e) => {
-  // highlight potential drop target when the ship enters it
-  e.target.classList.add('ship-hover');
+  // add hover effect behind ship dragged over potential drop target
+  renderHoverEffect(e, true);
 };
 
 const handleDragLeave = (e) => {
-  // reset background of potential drop target when the ship leaves it
-  e.target.classList.remove('ship-hover');
+  // remove hover effect of ship when it leaves potential drop target
+  renderHoverEffect(e, false);
 };
 
 const addShipsDragEventHandlers = () => {

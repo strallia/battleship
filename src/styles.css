@@ -60,12 +60,16 @@ button.miss::before {
   font-size: 24px;
 }
 
+.toggle-direction {
+  height: 30px;
+}
+
 .place-ships-screen {
   width: 100%;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  column-gap: 50px;
   justify-items: center;
 }
 

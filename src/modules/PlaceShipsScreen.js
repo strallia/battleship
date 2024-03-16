@@ -41,45 +41,54 @@ const updateBoard = () => {
   });
 };
 
-const addShipsDragEventHandlers = () => {
-  originalDraggableShips.forEach((ship) => {
-    ship.addEventListener('dragstart', (e) => {
-      // store data in dataTransfer: ship name and direction attribute
-      const obj = {
-        shipName: e.target.id,
-        curDirection: e.target.dataset.direction,
-      };
-      e.dataTransfer.setData('text/plain', JSON.stringify(obj));
+const handleToggleDirectionClick = () => {
+  originalDraggableShips.forEach((node) => {
+    // DOM: rotate ship
+    const { width, height } = node.style;
+    node.setAttribute('style', `width: ${height}; height: ${width};`);
 
-      // position cursor grabbing ship
-      e.dataTransfer.setDragImage(e.target, 20, 20);
-
-      // make ship transparent when actively draggging
-      e.target.classList.add('transparent');
-    });
-
-    ship.addEventListener('dragend', (e) => {
-      // remove transparent effect when stop dragging ship
-      e.target.classList.remove('transparent');
-    });
+    // DOM: update data-direction attribute
+    const { direction } = node.dataset;
+    const newDirection = direction === 'horizontal' ? 'vertical' : 'horizontal';
+    node.setAttribute('data-direction', newDirection);
   });
 };
 
-// add drag and drop event handlers on board
-placeShipsBoardDiv.addEventListener('dragover', (e) => {
+const handleDragStart = (e) => {
+  // store data in dataTransfer: ship name and direction attribute
+  const obj = {
+    shipName: e.target.id,
+    curDirection: e.target.dataset.direction,
+  };
+  e.dataTransfer.setData('text/plain', JSON.stringify(obj));
+
+  // position cursor grabbing ship
+  e.dataTransfer.setDragImage(e.target, 20, 20);
+
+  // make ship transparent when actively draggging
+  e.target.classList.add('transparent');
+};
+
+const handleDragEnd = (e) => {
+  // remove transparent effect when stop dragging ship
+  e.target.classList.remove('transparent');
+};
+
+const handleDragOver = (e) => {
   e.preventDefault();
   // show move-cursor when ship hovers over potential drop target
   e.dataTransfer.dropEffect = 'move';
-});
+};
 
-const handleDropEvent = (e) => {
+const handleDrop = (e) => {
   const { shipName, curDirection } = JSON.parse(e.dataTransfer.getData('text'));
   const { y, x } = e.target.dataset;
   const shipInstance = new Ship(shipName);
 
+  // FIX: DOM should not write/set data
+  shipInstance.setDirection(curDirection);
+
   if (placeShipBoardInstance.isValidPosition([+y, +x], shipInstance)) {
-    // FIX: DOM should not write/set data
-    shipInstance.setDirection(curDirection);
     placeShipBoardInstance.placeShip([+y, +x], shipInstance);
 
     // if original draggable ship is in draggable-ships-container, remove it
@@ -94,32 +103,36 @@ const handleDropEvent = (e) => {
 
   updateBoard();
 };
-placeShipsBoardDiv.addEventListener('drop', (e) => {
-  handleDropEvent(e);
-});
 
-placeShipsBoardDiv.addEventListener('dragenter', (e) => {
+const handleDragEnter = (e) => {
   // highlight potential drop target when the ship enters it
   e.target.classList.add('ship-hover');
-});
-placeShipsBoardDiv.addEventListener('dragleave', (e) => {
+};
+
+const handleDragLeave = (e) => {
   // reset background of potential drop target when the ship leaves it
   e.target.classList.remove('ship-hover');
-});
+};
 
-toggleDirectionButton.addEventListener('click', () => {
-  originalDraggableShips.forEach((node) => {
-    // DOM: rotate ship
-    const { width, height } = node.style;
-    node.setAttribute('style', `width: ${height}; height: ${width};`);
-
-    // DOM: update data-direction attribute
-    const { direction } = node.dataset;
-    const newDirection = direction === 'horizontal' ? 'vertical' : 'horizontal';
-    node.setAttribute('data-direction', newDirection);
+const addShipsDragEventHandlers = () => {
+  originalDraggableShips.forEach((ship) => {
+    ship.addEventListener('dragstart', (e) => handleDragStart(e));
+    ship.addEventListener('dragend', (e) => handleDragEnd(e));
   });
-});
+
+  toggleDirectionButton.addEventListener('click', () =>
+    handleToggleDirectionClick(),
+  );
+};
+
+const addBoardDragEventHandlers = () => {
+  placeShipsBoardDiv.addEventListener('dragover', (e) => handleDragOver(e));
+  placeShipsBoardDiv.addEventListener('drop', (e) => handleDrop(e));
+  placeShipsBoardDiv.addEventListener('dragenter', (e) => handleDragEnter(e));
+  placeShipsBoardDiv.addEventListener('dragleave', (e) => handleDragLeave(e));
+};
 
 // setup initial render
 updateBoard();
 addShipsDragEventHandlers();
+addBoardDragEventHandlers();

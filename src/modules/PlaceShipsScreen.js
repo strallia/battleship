@@ -107,29 +107,23 @@ const handleDrop = (e) => {
   updateBoard();
 };
 
-const renderHoverEffect = (event, isActive) => {
-  const nodes = [event.target];
+const removeAllShipHover = () => {
+  const cells = placeShipsBoardDiv.querySelectorAll('button');
+  cells.forEach((cell) => cell.classList.remove('ship-hover'));
+};
+
+const handleDragEnter = (e) => {
+  removeAllShipHover();
+
+  // apply new ship-hover effect
+  const nodes = [e.target];
   let counter = 0;
   while (counter < curDraggedShipLength - 1) {
     const prevNode = nodes.at(-1);
     nodes.push(prevNode.nextSibling);
     counter += 1;
   }
-  nodes.forEach((node) => {
-    if (isActive) node.classList.add('ship-hover');
-    else node.classList.remove('ship-hover');
-  });
-  console.log(nodes);
-};
-
-const handleDragEnter = (e) => {
-  // add hover effect behind ship dragged over potential drop target
-  renderHoverEffect(e, true);
-};
-
-const handleDragLeave = (e) => {
-  // remove hover effect of ship when it leaves potential drop target
-  renderHoverEffect(e, false);
+  nodes.forEach((node) => node.classList.add('ship-hover'));
 };
 
 const addShipsDragEventHandlers = () => {
@@ -147,7 +141,6 @@ const addBoardDragEventHandlers = () => {
   placeShipsBoardDiv.addEventListener('dragover', (e) => handleDragOver(e));
   placeShipsBoardDiv.addEventListener('drop', (e) => handleDrop(e));
   placeShipsBoardDiv.addEventListener('dragenter', (e) => handleDragEnter(e));
-  placeShipsBoardDiv.addEventListener('dragleave', (e) => handleDragLeave(e));
 };
 
 // setup initial render

@@ -115,7 +115,7 @@ const removeAllShipHover = () => {
 const handleDragEnter = (e) => {
   removeAllShipHover();
 
-  // apply new ship-hover effect
+  // find all cells under ship to apply hover effect to
   const nodes = [e.target];
   let counter = 0;
   while (counter < curDraggedShipLength - 1) {
@@ -123,7 +123,20 @@ const handleDragEnter = (e) => {
     nodes.push(prevNode.nextSibling);
     counter += 1;
   }
-  nodes.forEach((node) => node.classList.add('ship-hover'));
+
+  // filter nodes array to keep only cells that are directly under ship
+  const filteredNodes = nodes.reduce(
+    (accumulatorArr, curNode) => {
+      const prevNode = accumulatorArr.at(-1);
+      const prevNodeX = prevNode.dataset.x;
+      const curNodeX = curNode.dataset.x;
+      if (curNodeX - prevNodeX === 1) return [...accumulatorArr, curNode];
+      return accumulatorArr;
+    },
+    [nodes[0]],
+  );
+
+  filteredNodes.forEach((node) => node.classList.add('ship-hover'));
 };
 
 const addShipsDragEventHandlers = () => {

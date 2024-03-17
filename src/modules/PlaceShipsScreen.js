@@ -30,7 +30,6 @@ const updateBoard = () => {
         const { ship } = cell;
         button.id = ship.getName();
         button.classList.add('ship');
-        button.draggable = true;
       }
 
       // add data-coordinate attribute

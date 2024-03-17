@@ -144,6 +144,10 @@ button.miss::before {
   background-color: gray;
 }
 
+.ship-hover.invalid {
+  background-color: maroon;
+}
+
 .transparent {
   opacity: 0.5;
 }

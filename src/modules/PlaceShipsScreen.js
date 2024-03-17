@@ -44,7 +44,7 @@ const updateBoard = () => {
 
 const removeAllShipHover = () => {
   const cells = placeShipsBoardDiv.querySelectorAll('button');
-  cells.forEach((cell) => cell.classList.remove('ship-hover'));
+  cells.forEach((cell) => cell.classList.remove('ship-hover', 'invalid'));
 };
 
 const handleToggleDirectionClick = () => {
@@ -141,6 +141,8 @@ const handleDragEnter = (e) => {
   );
 
   filteredNodes.forEach((node) => node.classList.add('ship-hover'));
+  if (filteredNodes.length !== nodes.length)
+    filteredNodes.forEach((node) => node.classList.add('invalid'));
 };
 
 const handleDragEnterBoardBorder = (e) => {

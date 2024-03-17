@@ -1,3 +1,3 @@
 import './styles.css';
-import './modules/ScreenController';
+import './modules/GameScreen';
 import './modules/PlaceShipsScreen';

@@ -34,12 +34,23 @@ body {
   grid-template-rows: repeat(10, 40px);
 }
 
-.disable-pointer {
-  pointer-events: none;
+.board > button {
+  outline: 1px solid darkgrey;
+  height: 40px;
+  min-width: 40px;
+  border: none;
 }
 
-button {
-  outline: 1px solid darkgrey;
+.attacks.board > button:hover {
+  background-color: lightgray;
+}
+
+.attacks.board > button:active {
+  background-color: whitesmoke;
+}
+
+.disable-pointer {
+  pointer-events: none;
 }
 
 button.ship {
@@ -85,13 +96,6 @@ button.miss::before {
   flex-wrap: wrap;
   width: 400px;
   height: 400px;
-}
-
-.place-ships.board > * {
-  outline: 1px solid darkgrey;
-  height: 40px;
-  min-width: 40px;
-  border: none;
 }
 
 .draggable-ships-container {

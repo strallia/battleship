@@ -6,6 +6,7 @@ import {
   switchEnemy,
 } from './GameController';
 
+const gameScreen = document.querySelector('.game-screen');
 const shipsBoardDiv = document.querySelector('.ships.board');
 const attacksBoardDiv = document.querySelector('.attacks.board');
 const announcementDiv = document.querySelector('.announcement');
@@ -135,3 +136,5 @@ attacksBoardDiv.addEventListener('click', (e) => {
 updateShipsBoard();
 updateAttacksBoard();
 updateAnnouncement('Send your attack');
+
+export { gameScreen, delay };

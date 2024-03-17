@@ -1,5 +1,6 @@
 import PlaceShipsBoard from '../classes/PlaceShipsBoard';
 import Ship from '../classes/Ship';
+import { gameScreen, delay } from './GameScreen';
 
 const placeShipsScreen = document.querySelector('.place-ships-screen');
 const toggleDirectionButton =
@@ -117,7 +118,7 @@ const handleDragOver = (e) => {
   e.dataTransfer.dropEffect = 'move';
 };
 
-const handleDrop = (e) => {
+const handleDrop = async (e) => {
   const { shipName } = JSON.parse(e.dataTransfer.getData('text'));
   const { y, x } = e.target.dataset;
   const shipInstance = new Ship(shipName);
@@ -139,6 +140,13 @@ const handleDrop = (e) => {
   e.target.classList.remove('ship-hover');
 
   updateBoard();
+
+  // if placed last ship, open game screen
+  if (draggableShipsContainer.children.length === 0) {
+    await delay(1000);
+    placeShipsScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+  }
 };
 
 const handleDragEnter = (e) => {

@@ -9,6 +9,7 @@ const draggableShipsContainer = placeShipsScreen.querySelector(
 );
 const originalDraggableShips =
   placeShipsScreen.querySelectorAll('[draggable="true"]');
+const boardBorderDiv = placeShipsScreen.querySelector('.board-border');
 const placeShipsBoardDiv = placeShipsScreen.querySelector('.place-ships.board');
 
 const placeShipBoardInstance = new PlaceShipsBoard();
@@ -39,6 +40,11 @@ const updateBoard = () => {
       placeShipsBoardDiv.appendChild(button);
     });
   });
+};
+
+const removeAllShipHover = () => {
+  const cells = placeShipsBoardDiv.querySelectorAll('button');
+  cells.forEach((cell) => cell.classList.remove('ship-hover'));
 };
 
 const handleToggleDirectionClick = () => {
@@ -75,6 +81,8 @@ const handleDragStart = (e) => {
 const handleDragEnd = (e) => {
   // remove transparent effect when stop dragging ship
   e.target.classList.remove('transparent');
+
+  removeAllShipHover();
 };
 
 const handleDragOver = (e) => {
@@ -107,12 +115,8 @@ const handleDrop = (e) => {
   updateBoard();
 };
 
-const removeAllShipHover = () => {
-  const cells = placeShipsBoardDiv.querySelectorAll('button');
-  cells.forEach((cell) => cell.classList.remove('ship-hover'));
-};
-
 const handleDragEnter = (e) => {
+  console.log(e.target);
   removeAllShipHover();
 
   // find all cells under ship to apply hover effect to
@@ -139,6 +143,10 @@ const handleDragEnter = (e) => {
   filteredNodes.forEach((node) => node.classList.add('ship-hover'));
 };
 
+const handleDragEnterBoardBorder = (e) => {
+  if (e.target === boardBorderDiv) removeAllShipHover();
+};
+
 const addShipsDragEventHandlers = () => {
   originalDraggableShips.forEach((ship) => {
     ship.addEventListener('dragstart', (e) => handleDragStart(e));
@@ -151,6 +159,9 @@ const addShipsDragEventHandlers = () => {
 };
 
 const addBoardDragEventHandlers = () => {
+  boardBorderDiv.addEventListener('dragenter', (e) =>
+    handleDragEnterBoardBorder(e),
+  );
   placeShipsBoardDiv.addEventListener('dragover', (e) => handleDragOver(e));
   placeShipsBoardDiv.addEventListener('drop', (e) => handleDrop(e));
   placeShipsBoardDiv.addEventListener('dragenter', (e) => handleDragEnter(e));

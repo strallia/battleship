@@ -47,17 +47,17 @@ const removeAllShipHover = () => {
   cells.forEach((cell) => cell.classList.remove('ship-hover', 'invalid'));
 };
 
+let curShipDirection = 'horizontal';
 const handleToggleDirectionClick = () => {
+  // visually rotate ships
   originalDraggableShips.forEach((node) => {
-    // DOM: rotate ship
     const { width, height } = node.style;
     node.setAttribute('style', `width: ${height}; height: ${width};`);
-
-    // DOM: update data-direction attribute
-    const { direction } = node.dataset;
-    const newDirection = direction === 'horizontal' ? 'vertical' : 'horizontal';
-    node.setAttribute('data-direction', newDirection);
   });
+
+  // update direction variable
+  curShipDirection =
+    curShipDirection === 'horizontal' ? 'vertical' : 'horizontal';
 };
 
 let curDraggedShipLength;
@@ -67,7 +67,6 @@ const handleDragStart = (e) => {
   // store data in dataTransfer: ship name and direction attribute
   const obj = {
     shipName: e.target.id,
-    curDirection: e.target.dataset.direction,
   };
   e.dataTransfer.setData('text/plain', JSON.stringify(obj));
 
@@ -76,6 +75,34 @@ const handleDragStart = (e) => {
 
   // make ship transparent when actively draggging
   e.target.classList.add('transparent');
+};
+
+const getHoverNodes = (e) => {
+  // find all cell nodes directly under ship
+  const allCells = placeShipsBoardDiv.querySelectorAll('button');
+  const cellNodes = [e.target];
+  if (curShipDirection === 'horizontal') {
+    const firstCellX = +e.target.dataset.x;
+    const constantY = +e.target.dataset.y;
+    const lastCellX = firstCellX + (curDraggedShipLength - 1);
+    allCells.forEach((cell) => {
+      const y = +cell.dataset.y;
+      const x = +cell.dataset.x;
+      if (x > firstCellX && x <= lastCellX && y === constantY)
+        cellNodes.push(cell);
+    });
+  } else {
+    const firstCellY = +e.target.dataset.y;
+    const constantX = +e.target.dataset.x;
+    const lastCellY = firstCellY + (curDraggedShipLength - 1);
+    allCells.forEach((cell) => {
+      const y = +cell.dataset.y;
+      const x = +cell.dataset.x;
+      if (y > firstCellY && y <= lastCellY && x === constantX)
+        cellNodes.push(cell);
+    });
+  }
+  return cellNodes;
 };
 
 const handleDragEnd = (e) => {
@@ -92,12 +119,12 @@ const handleDragOver = (e) => {
 };
 
 const handleDrop = (e) => {
-  const { shipName, curDirection } = JSON.parse(e.dataTransfer.getData('text'));
+  const { shipName } = JSON.parse(e.dataTransfer.getData('text'));
   const { y, x } = e.target.dataset;
   const shipInstance = new Ship(shipName);
 
   // FIX: DOM should not write/set data
-  shipInstance.setDirection(curDirection);
+  shipInstance.setDirection(curShipDirection);
 
   if (placeShipBoardInstance.isValidPosition([+y, +x], shipInstance)) {
     placeShipBoardInstance.placeShip([+y, +x], shipInstance);
@@ -116,33 +143,11 @@ const handleDrop = (e) => {
 };
 
 const handleDragEnter = (e) => {
-  console.log(e.target);
   removeAllShipHover();
-
-  // find all cells under ship to apply hover effect to
-  const nodes = [e.target];
-  let counter = 0;
-  while (counter < curDraggedShipLength - 1) {
-    const prevNode = nodes.at(-1);
-    nodes.push(prevNode.nextSibling);
-    counter += 1;
-  }
-
-  // filter nodes array to keep only cells that are directly under ship
-  const filteredNodes = nodes.reduce(
-    (accumulatorArr, curNode) => {
-      const prevNode = accumulatorArr.at(-1);
-      const prevNodeX = prevNode.dataset.x;
-      const curNodeX = curNode.dataset.x;
-      if (curNodeX - prevNodeX === 1) return [...accumulatorArr, curNode];
-      return accumulatorArr;
-    },
-    [nodes[0]],
-  );
-
-  filteredNodes.forEach((node) => node.classList.add('ship-hover'));
-  if (filteredNodes.length !== nodes.length)
-    filteredNodes.forEach((node) => node.classList.add('invalid'));
+  const cellNodes = getHoverNodes(e);
+  cellNodes.forEach((cell) => cell.classList.add('ship-hover'));
+  if (cellNodes.length !== curDraggedShipLength)
+    cellNodes.forEach((cell) => cell.classList.add('invalid'));
 };
 
 const handleDragEnterBoardBorder = (e) => {

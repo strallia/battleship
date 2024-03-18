@@ -1,6 +1,7 @@
+import { updateAnnouncement } from './AnnouncementsScreen';
 import {
   addRandomShipPlacement,
-  getAnnouncement,
+  getGameAnnouncement,
   playComputerAttack,
   players,
   playPlayerAttack,
@@ -10,7 +11,6 @@ import {
 const gameScreen = document.querySelector('.game-screen');
 const shipsBoardDiv = document.querySelector('.ships.board');
 const attacksBoardDiv = document.querySelector('.attacks.board');
-const announcementDiv = document.querySelector('.announcement');
 
 const updateShipsBoard = () => {
   // clear board
@@ -70,10 +70,6 @@ const updateAttacksBoard = () => {
   });
 };
 
-const updateAnnouncement = (string) => {
-  announcementDiv.textContent = string;
-};
-
 const disableAttacksBoard = () => {
   attacksBoardDiv.classList.add('disable-pointer');
 };
@@ -93,7 +89,7 @@ const handleAttacksBoardClick = async (targetSquare) => {
   updateAttacksBoard();
 
   // announce if player sunk computer's ship or wins
-  const firstAnnouncement = getAnnouncement([y, x]);
+  const firstAnnouncement = getGameAnnouncement([y, x]);
   if (firstAnnouncement) {
     updateAnnouncement(firstAnnouncement);
     await delay(1000);
@@ -112,7 +108,7 @@ const handleAttacksBoardClick = async (targetSquare) => {
   updateShipsBoard();
 
   // announce if computer sunk player's ship or wins
-  const secondAnnouncement = getAnnouncement();
+  const secondAnnouncement = getGameAnnouncement();
   if (secondAnnouncement) {
     updateAnnouncement(secondAnnouncement);
     await delay(1000);

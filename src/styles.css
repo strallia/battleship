@@ -9,13 +9,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  align-items: center;
 }
 
-.game-screen {
+.game-screen,
+.place-ships-screen {
+  width: 100%;
+
   display: grid;
   grid-template-columns: 1fr 1fr;
+  column-gap: 50px;
   justify-items: center;
-  row-gap: 30px;
 }
 
 .announcement {
@@ -73,15 +77,6 @@ button.miss::before {
 
 .toggle-direction {
   height: 30px;
-}
-
-.place-ships-screen {
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 50px;
-  justify-items: center;
 }
 
 .board-border {

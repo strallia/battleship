@@ -2,7 +2,7 @@ import Gameboard from '../classes/Gameboard';
 import Ship from '../classes/Ship';
 import {
   addRandomShipPlacement,
-  getAnnouncement,
+  getGameAnnouncement,
   getEnemy,
   playComputerAttack,
   playPlayerAttack,
@@ -47,7 +47,7 @@ describe('playComputerAttack function', () => {
   });
 });
 
-describe('getAnnouncement function', () => {
+describe('getGameAnnouncement function', () => {
   beforeAll(() => {
     const board = new Gameboard();
     board.placeShip([0, 0], new Ship('battleship'), false);
@@ -55,15 +55,15 @@ describe('getAnnouncement function', () => {
   });
 
   it('Always returns a string with or without argument', () => {
-    const resultWithArg = getAnnouncement([0, 0]);
+    const resultWithArg = getGameAnnouncement([0, 0]);
     expect(typeof resultWithArg).toBe('string');
-    const resultWithoutArg = getAnnouncement();
+    const resultWithoutArg = getGameAnnouncement();
     expect(typeof resultWithoutArg).toBe('string');
   });
 
   // TODO: write test for conditional string returns
   // it('Returns string "Computer sunk your (Ship name)" if Computer\'s recent attack sunk a ship', () => {
-  //   const string = getAnnouncement([0,0])
+  //   const string = getGameAnnouncement([0,0])
   //   expect(string).toBe('Computer sunk your battleship');
   // });
 });

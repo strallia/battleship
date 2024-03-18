@@ -40,7 +40,7 @@ const playComputerAttack = () => {
   console.log('computer attacked me', players[0].gameboard.board);
 };
 
-const getAnnouncement = function getStringForAnnouncement(
+const getGameAnnouncement = function getStringForGameAnnouncement(
   attackedCoord = computersAttackCoord,
 ) {
   // find attacked square with it's data object
@@ -94,7 +94,7 @@ export {
   getEnemy,
   playPlayerAttack,
   playComputerAttack,
-  getAnnouncement,
+  getGameAnnouncement,
   switchEnemy,
   addRandomShipPlacement,
 };

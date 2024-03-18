@@ -1,6 +1,7 @@
 import Ship from '../classes/Ship';
 import { gameScreen, delay, initializeGameScreenBoards } from './GameScreen';
 import { players } from './GameController';
+import { updateAnnouncement } from './AnnouncementsScreen';
 
 const placeShipsScreen = document.querySelector('.place-ships-screen');
 const toggleDirectionButton =
@@ -143,8 +144,8 @@ const handleDrop = async (e) => {
 
   // if placed last ship, open game screen
   if (draggableShipsContainer.children.length === 0) {
-    initializeGameScreenBoards();
     await delay(1000);
+    initializeGameScreenBoards();
     placeShipsScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
   }
@@ -183,6 +184,7 @@ const addBoardDragEventHandlers = () => {
 };
 
 // setup initial render
+updateAnnouncement('Place your ships');
 updateBoard();
 addShipsDragEventHandlers();
 addBoardDragEventHandlers();

@@ -1,4 +1,5 @@
 import {
+  addRandomShipPlacement,
   getAnnouncement,
   playComputerAttack,
   players,
@@ -132,9 +133,13 @@ attacksBoardDiv.addEventListener('click', (e) => {
     handleAttacksBoardClick(e.target);
 });
 
-// setup initial render
-updateShipsBoard();
-updateAttacksBoard();
-updateAnnouncement('Send your attack');
+const initializeGameScreenBoards = () => {
+  // randomly place all ships to computer's board
+  addRandomShipPlacement(players[1].gameboard);
 
-export { gameScreen, delay };
+  updateShipsBoard();
+  updateAttacksBoard();
+  updateAnnouncement('Send your attack');
+};
+
+export { gameScreen, delay, initializeGameScreenBoards };

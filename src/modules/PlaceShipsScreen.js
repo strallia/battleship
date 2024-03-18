@@ -1,6 +1,6 @@
-import PlaceShipsBoard from '../classes/PlaceShipsBoard';
 import Ship from '../classes/Ship';
-import { gameScreen, delay } from './GameScreen';
+import { gameScreen, delay, initializeGameScreenBoards } from './GameScreen';
+import { players } from './GameController';
 
 const placeShipsScreen = document.querySelector('.place-ships-screen');
 const toggleDirectionButton =
@@ -13,7 +13,7 @@ const originalDraggableShips =
 const boardBorderDiv = placeShipsScreen.querySelector('.board-border');
 const placeShipsBoardDiv = placeShipsScreen.querySelector('.place-ships.board');
 
-const placeShipBoardInstance = new PlaceShipsBoard();
+const placeShipBoardInstance = players[0].gameboard;
 
 const updateBoard = () => {
   placeShipsBoardDiv.textContent = '';
@@ -21,7 +21,7 @@ const updateBoard = () => {
   // load each cell
   const { board } = placeShipBoardInstance;
   board.forEach((row, rowIndex) => {
-    row.forEach((column, columnIndex) => {
+    row.forEach((_, columnIndex) => {
       const cell = board[rowIndex][columnIndex];
       const button = document.createElement('button');
 
@@ -143,6 +143,7 @@ const handleDrop = async (e) => {
 
   // if placed last ship, open game screen
   if (draggableShipsContainer.children.length === 0) {
+    initializeGameScreenBoards();
     await delay(1000);
     placeShipsScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');

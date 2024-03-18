@@ -13,38 +13,6 @@ const players = [
   },
 ];
 
-// Only for building initial UI. Places ships on both player's boards.
-const placeShips = () => {
-  players[0].gameboard.placeShip([1, 2], new Ship('carrier'), false);
-  players[0].gameboard.placeShip([6, 9], new Ship('battleship'), false);
-  players[0].gameboard.placeShip([5, 3], new Ship('cruiser'), false);
-  players[0].gameboard.placeShip([0, 9], new Ship('submarine'), false);
-  players[0].gameboard.placeShip([1, 7], new Ship('destroyer'), false);
-
-  players[1].gameboard.placeShip([1, 2], new Ship('carrier'), false);
-  players[1].gameboard.placeShip([3, 9], new Ship('battleship'), false);
-  players[1].gameboard.placeShip([6, 7], new Ship('cruiser'), false);
-  players[1].gameboard.placeShip([2, 5], new Ship('submarine'), false);
-  players[1].gameboard.placeShip([8, 3], new Ship('destroyer'), false);
-};
-placeShips();
-const placeHits = () => {
-  players[1].gameboard.receiveAttack([9, 9]);
-  players[1].gameboard.receiveAttack([1, 2]);
-  players[1].gameboard.receiveAttack([8, 3]);
-
-  for (let i = 0; i < 10; i += 1) {
-    for (let j = 0; j < 10; j += 1) {
-      if (i === 2 && j === 7) continue;
-      if (i === 3 && j === 3) continue;
-      players[0].gameboard.receiveAttack([i, j]);
-    }
-  }
-};
-placeHits();
-console.log('player', players[0].gameboard.board);
-console.log('computer', players[1].gameboard.board);
-
 let winner = null;
 
 const getWinner = () => winner;
@@ -100,6 +68,27 @@ const getAnnouncement = function getStringForAnnouncement(
   return '';
 };
 
+const getRandomCoord = () =>
+  [null, null].map((item) => Math.floor(Math.random() * 10));
+
+const addRandomShipPlacement = (gameboard) => {
+  const shipNames = [
+    'carrier',
+    'battleship',
+    'cruiser',
+    'submarine',
+    'destroyer',
+  ];
+  const shipDirectionOptions = ['horizontal', 'vertical'];
+  while (shipNames.length > 0) {
+    const randomCoord = getRandomCoord();
+    const ship = new Ship(shipNames.at(-1));
+    ship.setDirection(shipDirectionOptions[Math.floor(Math.random() * 2)]);
+    const isValidShipPlacement = gameboard.placeShip(randomCoord, ship);
+    if (isValidShipPlacement) shipNames.pop();
+  }
+};
+
 export {
   players,
   getEnemy,
@@ -107,4 +96,5 @@ export {
   playComputerAttack,
   getAnnouncement,
   switchEnemy,
+  addRandomShipPlacement,
 };

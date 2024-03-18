@@ -1,6 +1,7 @@
 import Gameboard from '../classes/Gameboard';
 import Ship from '../classes/Ship';
 import {
+  addRandomShipPlacement,
   getAnnouncement,
   getEnemy,
   playComputerAttack,
@@ -65,4 +66,12 @@ describe('getAnnouncement function', () => {
   //   const string = getAnnouncement([0,0])
   //   expect(string).toBe('Computer sunk your battleship');
   // });
+});
+
+describe('addRandomShipPlacement function', () => {
+  it('Randomly places all 5 ships on a given gameboard', () => {
+    const board = new Gameboard();
+    addRandomShipPlacement(board);
+    expect(board.ships.length).toBe(5);
+  });
 });

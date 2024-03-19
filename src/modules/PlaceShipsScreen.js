@@ -72,7 +72,7 @@ const handleDragStart = (e) => {
   e.dataTransfer.setData('text/plain', JSON.stringify(obj));
 
   // position cursor grabbing ship
-  e.dataTransfer.setDragImage(e.target, 20, 20);
+  e.dataTransfer.setDragImage(e.target, 10, 10);
 
   // make ship transparent when actively draggging
   e.target.classList.add('transparent');

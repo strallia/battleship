@@ -113,6 +113,10 @@ button.miss::before {
   height: 40px;
   background-color: rebeccapurple;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &::before {
     color: white;
     font-size: 10px;

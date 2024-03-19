@@ -104,6 +104,10 @@ button.miss::before {
   gap: 20px;
 }
 
+.draggable-ships-container > * {
+  cursor: grab;
+}
+
 #battleship,
 #cruiser,
 #submarine,

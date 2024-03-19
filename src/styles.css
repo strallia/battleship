@@ -42,6 +42,7 @@ body {
   outline: 1px solid darkgrey;
   height: 40px;
   min-width: 40px;
+  background-color: inherit;
   border: none;
 }
 
@@ -51,6 +52,14 @@ body {
 
 .attacks.board > button:active {
   background-color: whitesmoke;
+}
+
+.attacks.board > button.ship.disable:hover {
+  background-color: rebeccapurple;
+}
+
+.attacks.board > button.disable:hover {
+  background-color: inherit;
 }
 
 .disable-pointer {

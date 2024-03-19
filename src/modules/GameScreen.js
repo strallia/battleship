@@ -19,7 +19,7 @@ const updateShipsBoard = () => {
   // load each square
   const playerBoard = players[0].gameboard.board;
   playerBoard.forEach((row, rowIndex) => {
-    row.forEach((column, columnIndex) => {
+    row.forEach((_, columnIndex) => {
       const square = playerBoard[rowIndex][columnIndex];
       const button = document.createElement('button');
 
@@ -49,9 +49,15 @@ const updateAttacksBoard = () => {
   // load each square
   const computerBoard = players[1].gameboard.board;
   computerBoard.forEach((row, rowIndex) => {
-    row.forEach((column, columnIndex) => {
+    row.forEach((_, columnIndex) => {
       const square = computerBoard[rowIndex][columnIndex];
       const button = document.createElement('button');
+
+      // reveal enemy's sunken ships
+      const hasShip = square === null ? false : Object.hasOwn(square, 'ship');
+      if (hasShip && square.ship.isSunk()) {
+        button.classList.add('ship');
+      }
 
       // render attacks to computer's ships
       const hasAttackStatus =
@@ -59,6 +65,8 @@ const updateAttacksBoard = () => {
       if (hasAttackStatus) {
         const { attackStatus } = square;
         button.classList.add(attackStatus);
+        button.classList.add('disable');
+        button.addEventListener('click', (e) => e.stopPropagation());
       }
 
       // add data attributes for coordinates
@@ -124,9 +132,7 @@ const handleAttacksBoardClick = async (targetSquare) => {
   enableAttacksBoard();
 };
 attacksBoardDiv.addEventListener('click', (e) => {
-  const targetClasses = e.target.classList;
-  if (!targetClasses.contains('hit') && !targetClasses.contains('miss'))
-    handleAttacksBoardClick(e.target);
+  handleAttacksBoardClick(e.target);
 });
 
 const initializeGameScreenBoards = () => {

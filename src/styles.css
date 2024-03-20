@@ -156,11 +156,11 @@ button.miss::before {
   content: 'Destroyer';
 }
 
-.ship-hover {
+.place-ships.board > .ship-hover {
   background-color: gray;
 }
 
-.ship-hover.invalid {
+.place-ships.board > .ship-hover.invalid {
   background-color: maroon;
 }
 

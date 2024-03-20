@@ -1,4 +1,3 @@
-import { updateAnnouncement } from './AnnouncementsScreen';
 import {
   addRandomShipPlacement,
   getGameAnnouncement,
@@ -6,9 +5,11 @@ import {
   players,
   playPlayerAttack,
   switchEnemy,
+  delay,
+  updateAnnouncement,
+  showSelectScreen,
 } from './GameController';
 
-const gameScreen = document.querySelector('.game-screen');
 const shipsBoardDiv = document.querySelector('.ships.board');
 const attacksBoardDiv = document.querySelector('.attacks.board');
 
@@ -86,8 +87,6 @@ const enableAttacksBoard = () => {
   attacksBoardDiv.classList.remove('disable-pointer');
 };
 
-const delay = (msec) => new Promise((res) => setTimeout(res, msec));
-
 const handleAttacksBoardClick = async (targetSquare) => {
   disableAttacksBoard();
 
@@ -100,6 +99,10 @@ const handleAttacksBoardClick = async (targetSquare) => {
   const firstAnnouncement = getGameAnnouncement([y, x]);
   if (firstAnnouncement) {
     updateAnnouncement(firstAnnouncement);
+    if (firstAnnouncement.includes('win')) {
+      updateAnnouncement(firstAnnouncement);
+      showSelectScreen('winner');
+    }
     await delay(1000);
   }
   switchEnemy();
@@ -119,6 +122,10 @@ const handleAttacksBoardClick = async (targetSquare) => {
   const secondAnnouncement = getGameAnnouncement();
   if (secondAnnouncement) {
     updateAnnouncement(secondAnnouncement);
+    if (secondAnnouncement.includes('win')) {
+      updateAnnouncement(secondAnnouncement);
+      showSelectScreen('winner');
+    }
     await delay(1000);
   }
   switchEnemy();
@@ -144,4 +151,4 @@ const initializeGameScreenBoards = () => {
   updateAnnouncement('Send your attack');
 };
 
-export { gameScreen, delay, initializeGameScreenBoards };
+export { initializeGameScreenBoards };

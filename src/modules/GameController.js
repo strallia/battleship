@@ -1,6 +1,12 @@
 import Gameboard from '../classes/Gameboard';
 import Player from '../classes/Player';
 import Ship from '../classes/Ship';
+import {
+  announcementDiv,
+  gameScreen,
+  placeShipsScreen,
+  winnerScreen,
+} from './DOMscreens';
 
 const players = [
   {
@@ -89,6 +95,25 @@ const addRandomShipPlacement = (gameboard) => {
   }
 };
 
+const delay = (msec) => new Promise((res) => setTimeout(res, msec));
+
+const showSelectScreen = (string) => {
+  if (string === 'game') {
+    placeShipsScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+  } else if (string === 'winner') {
+    gameScreen.classList.add('hidden');
+    winnerScreen.classList.remove('hidden');
+  } else if (string === 'place ships') {
+    winnerScreen.classList.add('hidden');
+    placeShipsScreen.classList.remove('hidden');
+  }
+};
+
+const updateAnnouncement = (string) => {
+  announcementDiv.textContent = string;
+};
+
 export {
   players,
   getEnemy,
@@ -97,4 +122,7 @@ export {
   getGameAnnouncement,
   switchEnemy,
   addRandomShipPlacement,
+  delay,
+  showSelectScreen,
+  updateAnnouncement,
 };

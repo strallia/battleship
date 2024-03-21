@@ -2,8 +2,8 @@ import Gameboard from '../classes/Gameboard';
 import Player from '../classes/Player';
 import Ship from '../classes/Ship';
 import {
-  announcementDiv,
   gameScreen,
+  menuScreen,
   placeShipsScreen,
   winnerScreen,
 } from './DOMscreens';
@@ -97,6 +97,7 @@ const addRandomShipPlacement = (gameboard) => {
 
 const delay = (msec) => new Promise((res) => setTimeout(res, msec));
 
+const announcementDiv = document.querySelector('.announcement');
 const showSelectScreen = (string) => {
   if (string === 'game') {
     placeShipsScreen.classList.add('hidden');
@@ -104,8 +105,13 @@ const showSelectScreen = (string) => {
   } else if (string === 'winner') {
     gameScreen.classList.add('hidden');
     winnerScreen.classList.remove('hidden');
-  } else if (string === 'place ships') {
+  } else if (string === 'menu') {
+    announcementDiv.classList.add('hidden');
     winnerScreen.classList.add('hidden');
+    menuScreen.classList.remove('hidden');
+  } else if (string === 'place ships') {
+    menuScreen.classList.add('hidden');
+    announcementDiv.classList.remove('hidden');
     placeShipsScreen.classList.remove('hidden');
   }
 };

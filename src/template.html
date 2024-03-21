@@ -7,8 +7,24 @@
   </head>
   <body>
     <p class="title">BATTLESHIP</p>
-    <div class="announcement"></div>
-    <div class="place-ships-screen">
+    <div class="announcement hidden"></div>
+    <div class="menu-screen">
+      <form>
+        <div>
+          <label for="name">Enter your name:</label>
+          <input id="name" name="name" type="text" />
+        </div>
+        <div>
+          <label for="difficulty">Select difficulty:</label>
+          <select id="difficulty" name="difficulty">
+            <option value="easy">Easy</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <button class="start" type="submit">START</button>
+      </form>
+    </div>
+    <div class="place-ships-screen hidden">
       <button class="toggle-direction">Toggle Direction</button>
       <div class="draggable-ships-container">
         <div

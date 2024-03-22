@@ -9,17 +9,53 @@
 }
 
 body {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   margin: 30px;
-  display: flex;
-  flex-direction: column;
+
+  display: grid;
+  grid-template-rows: min-content 1fr;
   gap: 30px;
-  align-items: center;
+  justify-items: center;
+  text-align: center;
 }
 
 .title {
   font-family: 'Keania';
   font-size: 60px;
   font-stretch: extra-expanded;
+}
+
+.menu-screen > form {
+  height: 50%;
+  display: grid;
+  align-items: center;
+  grid-template-rows: repeat(3, min-content);
+  gap: 30px;
+  align-content: center;
+  justify-items: center;
+}
+
+form > div {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+}
+
+form > div:nth-child(2) {
+  display: flex;
+  width: 100%;
+}
+
+form button {
+  width: min-content;
+}
+
+input {
+  padding: 5px 10px;
 }
 
 .game-screen,

@@ -165,7 +165,7 @@ describe('Handle a player and opponent board separately', () => {
   });
 });
 
-describe("Getting computer's attack", () => {
+describe("Getting computer's attack (easy mode) with getComputerAttackRandom method", () => {
   const gameboard = new Gameboard('Leah');
   let coord;
   afterAll(() => {
@@ -174,7 +174,7 @@ describe("Getting computer's attack", () => {
 
   it('Calls Math.random', () => {
     const spyMathRandom = jest.spyOn(global.Math, 'random');
-    gameboard.getComputerAttack();
+    gameboard.getComputerAttackRandom();
     expect(spyMathRandom).toHaveBeenCalled();
   });
 
@@ -188,7 +188,7 @@ describe("Getting computer's attack", () => {
     gameboard.board[0][0] = null;
 
     // expect computer to attack the only open square
-    coord = gameboard.getComputerAttack();
+    coord = gameboard.getComputerAttackRandom();
     expect(gameboard.board[0][0]).toBeTruthy();
     gameboard.resetBoard();
   });
@@ -204,7 +204,7 @@ describe("Getting computer's attack", () => {
     delete gameboard.board[0][0].attackStatus;
 
     // expect computer to attack the only open square
-    gameboard.getComputerAttack();
+    gameboard.getComputerAttackRandom();
     expect(Object.hasOwn(gameboard.board[0][0], 'attackStatus')).toBe(true);
   });
 
@@ -214,6 +214,106 @@ describe("Getting computer's attack", () => {
     expect(y).toBeLessThanOrEqual(9);
     expect(x).toBeGreaterThanOrEqual(0);
     expect(x).toBeLessThanOrEqual(9);
+  });
+});
+
+describe("Getting computer's attack (hard mode) with getComputerAttackHard method", () => {
+  it("Attacks a random cell on board on computer's first attack", () => {
+    const gameboard = new Gameboard();
+    const attackedCoord = gameboard.getComputerAttackHard();
+    expect(attackedCoord.length).toEqual(2);
+    expect(attackedCoord[0] >= 0 && attackedCoord[0] <= 9).toBe(true);
+    expect(attackedCoord[1] >= 0 && attackedCoord[1] <= 9).toBe(true);
+  });
+
+  it("Attacks a random cell on board if computer's previous attack was a miss", () => {
+    const gameboard = new Gameboard();
+    const prevAttackCoord = gameboard.getComputerAttackHard();
+    expect(
+      gameboard.board[prevAttackCoord[0]][prevAttackCoord[1]].attackStatus,
+    ).toBe('miss');
+    const nextAttackCoord = gameboard.getComputerAttackHard();
+    expect(nextAttackCoord.length).toEqual(2);
+    expect(nextAttackCoord[0] >= 0 && nextAttackCoord[0] <= 9).toBe(true);
+    expect(nextAttackCoord[1] >= 0 && nextAttackCoord[1] <= 9).toBe(true);
+  });
+
+  it("Attacks a random neighbor cell when computer's prev attack was a hit", () => {
+    const gameboard = new Gameboard();
+
+    // setup previous attack to be a hit
+    gameboard.placeShip([1, 1], new Ship('destroyer'));
+    gameboard.receiveAttack([1, 1]);
+    gameboard.setComputersPreviousAttackCoord([1, 1]);
+
+    const possibleNeighborCoordinates = [
+      [0, 1],
+      [1, 0],
+      [1, 2],
+      [2, 1],
+    ];
+    const nextAttackCoord = gameboard.getComputerAttackHard();
+    expect(possibleNeighborCoordinates).toContainEqual(nextAttackCoord);
+  });
+
+  it('Does not attack neighbor cells off the board', () => {
+    const gameboard = new Gameboard();
+
+    // setup previous attack to be a hit
+    gameboard.placeShip([0, 0], new Ship('destroyer'));
+    gameboard.receiveAttack([0, 0]);
+    gameboard.setComputersPreviousAttackCoord([0, 0]);
+
+    const possibleNeighborCoordinates = [
+      [0, 1],
+      [1, 0],
+    ];
+    const nextAttackCoord = gameboard.getComputerAttackHard();
+    expect(possibleNeighborCoordinates).toContainEqual(nextAttackCoord);
+  });
+
+  it('Attacks random cell on board if no neighbor cells open', () => {
+    const gameboard = new Gameboard();
+
+    // setup previous attack to be a hit with no open neighbor cells
+    gameboard.placeShip([0, 0], new Ship('destroyer'));
+    gameboard.setComputersPreviousAttackCoord([0, 0]);
+    gameboard.receiveAttack([1, 0]);
+    gameboard.receiveAttack([0, 1]);
+
+    const neighborCoordinates = [
+      [0, 1],
+      [1, 0],
+    ];
+    const nextAttackCoord = gameboard.getComputerAttackHard();
+    expect(neighborCoordinates).not.toContainEqual(nextAttackCoord);
+  });
+
+  it('Attacks neighbor cells that are likely to get a ship hit (ie creates a line of hits)', () => {
+    const gameboard = new Gameboard();
+
+    // setup previous attack
+    gameboard.placeShip([1, 1], new Ship('cruiser'));
+    gameboard.receiveAttack([1, 1]);
+    gameboard.receiveAttack([1, 2]);
+    gameboard.setComputersPreviousAttackCoord([1, 2]);
+
+    const nextAttackCoord = gameboard.getComputerAttackHard();
+    expect(nextAttackCoord[0]).toBe(1);
+    expect(nextAttackCoord[1]).toBe(3);
+  });
+
+  it('Does not attack neighbor cells that are already attacked', () => {
+    const gameboard = new Gameboard();
+    gameboard.placeShip([1, 1], new Ship('cruiser'));
+    gameboard.receiveAttack([1, 1]);
+    gameboard.receiveAttack([1, 2]);
+    gameboard.receiveAttack([1, 3]);
+    gameboard.receiveAttack([2, 2]);
+    gameboard.setComputersPreviousAttackCoord([1, 2]);
+    const [y, x] = gameboard.getComputerAttackHard();
+    expect(y).toBe(0);
+    expect(x).toBe(2);
   });
 });
 

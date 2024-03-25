@@ -42,7 +42,7 @@ const playPlayerAttack = (coord) => {
 
 let computersAttackCoord = [null, null];
 const playComputerAttack = () => {
-  computersAttackCoord = players[0].gameboard.getComputerAttack();
+  computersAttackCoord = players[0].gameboard.getComputerAttackRandom();
   console.log('computer attacked me', players[0].gameboard.board);
 };
 

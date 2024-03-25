@@ -11,7 +11,9 @@ import {
 
 beforeAll(() => {
   jest.spyOn(Gameboard.prototype, 'receiveAttack').mockImplementation();
-  jest.spyOn(Gameboard.prototype, 'getComputerAttack').mockImplementation();
+  jest
+    .spyOn(Gameboard.prototype, 'getComputerAttackRandom')
+    .mockImplementation();
 });
 
 describe('getEnemy function', () => {
@@ -40,8 +42,8 @@ describe('playPlayerAttack function', () => {
 });
 
 describe('playComputerAttack function', () => {
-  it("calls getComputerAttack method on player's board", () => {
-    const spy = jest.spyOn(Gameboard.prototype, 'getComputerAttack');
+  it("calls getComputerAttackRandom method on player's board", () => {
+    const spy = jest.spyOn(Gameboard.prototype, 'getComputerAttackRandom');
     playComputerAttack();
     expect(spy).toHaveBeenCalled();
   });

@@ -35,6 +35,12 @@ const switchEnemy = () => {
   enemy = enemy === players[0] ? players[1] : players[0];
 };
 
+let gameDifficulty = null;
+
+const setGameDifficulty = (string) => {
+  gameDifficulty = string;
+};
+
 const playPlayerAttack = (coord) => {
   players[1].gameboard.receiveAttack(coord);
   console.log('attacked computer', players[1].gameboard.board);
@@ -42,7 +48,10 @@ const playPlayerAttack = (coord) => {
 
 let computersAttackCoord = [null, null];
 const playComputerAttack = () => {
-  computersAttackCoord = players[0].gameboard.getComputerAttackRandom();
+  console.log(gameDifficulty);
+  if (gameDifficulty === 'easy')
+    computersAttackCoord = players[0].gameboard.getComputerAttackRandom();
+  else computersAttackCoord = players[0].gameboard.getComputerAttackHard();
   console.log('computer attacked me', players[0].gameboard.board);
 };
 
@@ -131,4 +140,5 @@ export {
   delay,
   showSelectScreen,
   updateAnnouncement,
+  setGameDifficulty,
 };

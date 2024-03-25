@@ -51,7 +51,7 @@ const playComputerAttack = () => {
   console.log(gameDifficulty);
   if (gameDifficulty === 'easy')
     computersAttackCoord = players[0].gameboard.getComputerAttackRandom();
-  else computersAttackCoord = players[0].gameboard.getComputerAttackHard();
+  else computersAttackCoord = players[0].gameboard.getComputerAttackMedium();
   console.log('computer attacked me', players[0].gameboard.board);
 };
 

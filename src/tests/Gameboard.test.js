@@ -165,7 +165,7 @@ describe('Handle a player and opponent board separately', () => {
   });
 });
 
-describe("Getting computer's attack (easy mode) with getComputerAttackRandom method", () => {
+describe("Getting computer's attack (easy difficulty) with getComputerAttackRandom method", () => {
   const gameboard = new Gameboard('Leah');
   let coord;
   afterAll(() => {
@@ -217,10 +217,10 @@ describe("Getting computer's attack (easy mode) with getComputerAttackRandom met
   });
 });
 
-describe("Getting computer's attack (hard mode) with getComputerAttackHard method", () => {
+describe("Getting computer's attack (medium difficulty) with getComputerAttackMedium method", () => {
   it("Attacks a random cell on board on computer's first attack", () => {
     const gameboard = new Gameboard();
-    const attackedCoord = gameboard.getComputerAttackHard();
+    const attackedCoord = gameboard.getComputerAttackMedium();
     expect(attackedCoord.length).toEqual(2);
     expect(attackedCoord[0] >= 0 && attackedCoord[0] <= 9).toBe(true);
     expect(attackedCoord[1] >= 0 && attackedCoord[1] <= 9).toBe(true);
@@ -228,11 +228,11 @@ describe("Getting computer's attack (hard mode) with getComputerAttackHard metho
 
   it("Attacks a random cell on board if computer's previous attack was a miss", () => {
     const gameboard = new Gameboard();
-    const prevAttackCoord = gameboard.getComputerAttackHard();
+    const prevAttackCoord = gameboard.getComputerAttackMedium();
     expect(
       gameboard.board[prevAttackCoord[0]][prevAttackCoord[1]].attackStatus,
     ).toBe('miss');
-    const nextAttackCoord = gameboard.getComputerAttackHard();
+    const nextAttackCoord = gameboard.getComputerAttackMedium();
     expect(nextAttackCoord.length).toEqual(2);
     expect(nextAttackCoord[0] >= 0 && nextAttackCoord[0] <= 9).toBe(true);
     expect(nextAttackCoord[1] >= 0 && nextAttackCoord[1] <= 9).toBe(true);
@@ -252,7 +252,7 @@ describe("Getting computer's attack (hard mode) with getComputerAttackHard metho
       [1, 2],
       [2, 1],
     ];
-    const nextAttackCoord = gameboard.getComputerAttackHard();
+    const nextAttackCoord = gameboard.getComputerAttackMedium();
     expect(possibleNeighborCoordinates).toContainEqual(nextAttackCoord);
   });
 
@@ -268,7 +268,7 @@ describe("Getting computer's attack (hard mode) with getComputerAttackHard metho
       [0, 1],
       [1, 0],
     ];
-    const nextAttackCoord = gameboard.getComputerAttackHard();
+    const nextAttackCoord = gameboard.getComputerAttackMedium();
     expect(possibleNeighborCoordinates).toContainEqual(nextAttackCoord);
   });
 
@@ -285,7 +285,7 @@ describe("Getting computer's attack (hard mode) with getComputerAttackHard metho
       [0, 1],
       [1, 0],
     ];
-    const nextAttackCoord = gameboard.getComputerAttackHard();
+    const nextAttackCoord = gameboard.getComputerAttackMedium();
     expect(neighborCoordinates).not.toContainEqual(nextAttackCoord);
   });
 
@@ -298,7 +298,7 @@ describe("Getting computer's attack (hard mode) with getComputerAttackHard metho
     gameboard.receiveAttack([1, 2]);
     gameboard.setComputersPreviousAttackCoord([1, 2]);
 
-    const nextAttackCoord = gameboard.getComputerAttackHard();
+    const nextAttackCoord = gameboard.getComputerAttackMedium();
     expect(nextAttackCoord[0]).toBe(1);
     expect(nextAttackCoord[1]).toBe(3);
   });
@@ -311,7 +311,7 @@ describe("Getting computer's attack (hard mode) with getComputerAttackHard metho
     gameboard.receiveAttack([1, 3]);
     gameboard.receiveAttack([2, 2]);
     gameboard.setComputersPreviousAttackCoord([1, 2]);
-    const [y, x] = gameboard.getComputerAttackHard();
+    const [y, x] = gameboard.getComputerAttackMedium();
     expect(y).toBe(0);
     expect(x).toBe(2);
   });

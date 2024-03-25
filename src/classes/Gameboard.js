@@ -131,7 +131,7 @@ export default class Gameboard {
     this.#computersPrevAttackCoord = coord;
   }
 
-  getComputerAttackHard() {
+  getComputerAttackMedium() {
     /**
      * This method checks the attack status of the computer's previous attack.
      * If it was a miss, it'll attack a random cell on the board.

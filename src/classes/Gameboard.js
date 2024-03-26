@@ -135,7 +135,7 @@ export default class Gameboard {
     /**
      * This method checks the attack status of the computer's previous attack.
      * If it was a miss, it'll attack a random cell on the board.
-     * It it was a hit, it'll attack a neighbor cell.
+     * It it was a hit, it'll attack a random neighbor cell.
      */
 
     // if no previous computer attack or if it attacked and was a miss, attack random cell
@@ -150,26 +150,21 @@ export default class Gameboard {
     }
 
     // else prev attack was a hit, so attack a neighbor cell
+    const [refY, refX] = this.#computersPrevAttackCoord;
     const coordChanges = [
       [-1, 0],
       [0, 1],
       [1, 0],
       [0, -1],
     ];
-    let allNeighborCoords = [];
+    const allNeighborCoords = [];
     coordChanges.forEach(([changeY, changeX]) => {
-      allNeighborCoords.push([
-        this.#computersPrevAttackCoord[0] + changeY,
-        this.#computersPrevAttackCoord[1] + changeX,
-      ]);
+      const [neighborY, neighborX] = [refY + changeY, refX + changeX];
+      if (neighborY >= 0 && neighborY <= 9 && neighborX >= 0 && neighborX <= 9)
+        allNeighborCoords.push([neighborY, neighborX]);
     });
 
-    // remove neighbor cells that are off the board
-    allNeighborCoords = allNeighborCoords.filter(
-      ([y, x]) => y >= 0 && y <= 9 && x >= 0 && x <= 9,
-    );
-
-    // find open neighbor cells that can be attacked
+    // find open neighbor cells that haven't been attacked
     const openNeighborCoords = allNeighborCoords.filter(
       ([y, x]) => !this.board[y][x]?.attackStatus,
     );

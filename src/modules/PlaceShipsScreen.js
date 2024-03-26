@@ -127,7 +127,6 @@ const handleDrop = async (e) => {
   const { y, x } = e.target.dataset;
   const shipInstance = new Ship(shipName);
 
-  // FIX: DOM should not write/set data
   shipInstance.setDirection(curShipDirection);
 
   if (placeShipBoardInstance.isValidPosition([+y, +x], shipInstance)) {

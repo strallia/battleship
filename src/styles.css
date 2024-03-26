@@ -2,18 +2,20 @@
   font-family: 'Keania';
   src: url('./assets/KeaniaOne-Regular.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('./assets/SpaceMono-Regular.ttf') format('truetype');
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'SpaceMono', sans-serif;
 }
 :root {
   --black: rgb(16, 17, 16);
-  --red: rgb(188, 0, 45);
-  --gold: rgb(255, 196, 8);
-  --grey: rgb(239, 239, 239);
-  --white: rgb(255, 255, 255);
+  --grey: rgb(219, 219, 219);
+  --yellow: rgb(255, 246, 192);
 }
 
 body {
@@ -23,7 +25,7 @@ body {
   left: 0;
   right: 0;
   margin: 30px;
-  background-color: var(--white);
+  background-color: var(--grey);
   color: var(--black);
 
   display: grid;
@@ -44,7 +46,7 @@ body {
   display: grid;
   align-items: center;
   grid-template-rows: repeat(3, min-content);
-  gap: 30px;
+  gap: 50px;
   align-content: center;
   justify-items: center;
 }
@@ -98,8 +100,6 @@ input {
   width: clamp(300px, 50%, 400px);
   height: 100%;
   text-align: center;
-  background-color: whitesmoke;
-  color: var(--black);
 }
 
 .board {
@@ -225,4 +225,13 @@ button.play-again {
 .game-screen,
 .winner-screen {
   max-width: 1000px;
+}
+
+footer {
+  align-self: flex-end;
+  font-size: 14px;
+  color: gray;
+  a {
+    color: inherit;
+  }
 }

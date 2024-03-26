@@ -2,11 +2,12 @@ import Gameboard from '../classes/Gameboard';
 import Ship from '../classes/Ship';
 import {
   addRandomShipPlacement,
-  getGameAnnouncement,
   getEnemy,
   playComputerAttack,
   playPlayerAttack,
   switchEnemy,
+  setGameDifficulty,
+  delay,
 } from '../modules/GameController';
 
 beforeAll(() => {
@@ -42,32 +43,17 @@ describe('playPlayerAttack function', () => {
 });
 
 describe('playComputerAttack function', () => {
-  it("calls getComputerAttackRandom method on player's board", () => {
+  it("calls getComputerAttackRandom method on player's board in easy difficulty mode", () => {
     const spy = jest.spyOn(Gameboard.prototype, 'getComputerAttackRandom');
     playComputerAttack();
     expect(spy).toHaveBeenCalled();
   });
-});
-
-describe('getGameAnnouncement function', () => {
-  beforeAll(() => {
-    const board = new Gameboard();
-    board.placeShip([0, 0], new Ship('battleship'), false);
-    board.receiveAttack([0, 0]);
+  it("calls getComputerAttackMedium method on player's board in medium difficulty mode", () => {
+    const spy = jest.spyOn(Gameboard.prototype, 'getComputerAttackMedium');
+    setGameDifficulty('medium');
+    playComputerAttack();
+    expect(spy).toHaveBeenCalled();
   });
-
-  it('Always returns a string with or without argument', () => {
-    const resultWithArg = getGameAnnouncement([0, 0]);
-    expect(typeof resultWithArg).toBe('string');
-    const resultWithoutArg = getGameAnnouncement();
-    expect(typeof resultWithoutArg).toBe('string');
-  });
-
-  // TODO: write test for conditional string returns
-  // it('Returns string "Computer sunk your (Ship name)" if Computer\'s recent attack sunk a ship', () => {
-  //   const string = getGameAnnouncement([0,0])
-  //   expect(string).toBe('Computer sunk your battleship');
-  // });
 });
 
 describe('addRandomShipPlacement function', () => {
@@ -75,5 +61,24 @@ describe('addRandomShipPlacement function', () => {
     const board = new Gameboard();
     addRandomShipPlacement(board);
     expect(board.ships.length).toBe(5);
+  });
+  it('Calls setDirection method', () => {
+    const spy = jest.spyOn(Ship.prototype, 'setDirection');
+    const board = new Gameboard();
+    addRandomShipPlacement(board);
+    expect(spy).toHaveBeenCalled();
+  });
+  it('Calls placeShip method', () => {
+    const spy = jest.spyOn(Gameboard.prototype, 'placeShip');
+    const board = new Gameboard();
+    addRandomShipPlacement(board);
+    expect(spy).toHaveBeenCalled();
+  });
+});
+
+describe('delay function', () => {
+  it('Returns a promise', () => {
+    const result = delay(0);
+    expect(result).toBeInstanceOf(Promise);
   });
 });

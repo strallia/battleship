@@ -19,14 +19,6 @@ const players = [
   },
 ];
 
-let winner = null;
-
-const getWinner = () => winner;
-
-const setWinner = (playerObj) => {
-  winner = playerObj;
-};
-
 let enemy = players[1];
 
 const getEnemy = () => enemy;
@@ -35,24 +27,19 @@ const switchEnemy = () => {
   enemy = enemy === players[0] ? players[1] : players[0];
 };
 
-let gameDifficulty = null;
+let gameDifficulty = 'easy';
 
 const setGameDifficulty = (string) => {
   gameDifficulty = string;
 };
 
-const playPlayerAttack = (coord) => {
-  players[1].gameboard.receiveAttack(coord);
-  console.log('attacked computer', players[1].gameboard.board);
-};
+const playPlayerAttack = (coord) => players[1].gameboard.receiveAttack(coord);
 
 let computersAttackCoord = [null, null];
 const playComputerAttack = () => {
-  console.log(gameDifficulty);
   if (gameDifficulty === 'easy')
     computersAttackCoord = players[0].gameboard.getComputerAttackRandom();
   else computersAttackCoord = players[0].gameboard.getComputerAttackMedium();
-  console.log('computer attacked me', players[0].gameboard.board);
 };
 
 const getGameAnnouncement = function getStringForGameAnnouncement(
@@ -84,7 +71,7 @@ const getGameAnnouncement = function getStringForGameAnnouncement(
 };
 
 const getRandomCoord = () =>
-  [null, null].map((item) => Math.floor(Math.random() * 10));
+  [null, null].map((_) => Math.floor(Math.random() * 10));
 
 const addRandomShipPlacement = (gameboard) => {
   const shipNames = [

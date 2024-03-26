@@ -95,7 +95,7 @@ input {
 
 .announcement {
   padding: 20px;
-  width: 50%;
+  width: clamp(300px, 50%, 400px);
   height: 100%;
   text-align: center;
   background-color: whitesmoke;
@@ -196,31 +196,6 @@ button.miss::before {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &::before {
-    color: white;
-    font-size: 10px;
-  }
-}
-
-#carrier::before {
-  content: 'Carrier';
-}
-
-#battleship::before {
-  content: 'Battleship';
-}
-
-#submarine::before {
-  content: 'Submarine';
-}
-
-#cruiser::before {
-  content: 'Cruiser';
-}
-
-#destroyer::before {
-  content: 'Destroyer';
 }
 
 .place-ships.board > .ship-hover {
@@ -228,7 +203,7 @@ button.miss::before {
 }
 
 .place-ships.board > .ship-hover.invalid {
-  background-color: var(--red);
+  background-color: maroon;
 }
 
 .transparent {
@@ -237,4 +212,10 @@ button.miss::before {
 
 .hidden {
   display: none;
+}
+
+button.start,
+button.toggle-direction,
+button.play-again {
+  padding: 5px 12px;
 }

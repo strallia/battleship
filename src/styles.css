@@ -219,3 +219,10 @@ button.toggle-direction,
 button.play-again {
   padding: 5px 12px;
 }
+
+.menu-screen,
+.place-ships-screen,
+.game-screen,
+.winner-screen {
+  max-width: 1000px;
+}

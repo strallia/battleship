@@ -1,4 +1,4 @@
-# Project
+# Battleship
 
 [Live Demo](https://strallia.github.io/battleship/)
 
